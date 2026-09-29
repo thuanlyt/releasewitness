@@ -1190,7 +1190,11 @@ def unsafe_local_only_paths(config: dict[str, Any]) -> list[str]:
         value = paths_config.get(key, DEFAULT_CONFIG["paths"][key])
         if not isinstance(value, str):
             continue
-        relative = normalize_scope(value)
+        try:
+            # Compare the resolved location so `..` segments cannot disguise the target.
+            relative = (ROOT / value).resolve().relative_to(ROOT.resolve()).as_posix()
+        except ValueError:
+            relative = "."
         if relative == "." or not release_path_is_volatile(relative, declared):
             problems.append(f"config.paths.{key} must be inside config.release_source.volatile_paths")
     return problems

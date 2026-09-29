@@ -411,6 +411,9 @@ tests that fail on `fa2c42c`:
   closed on unsafe local-only paths;
 - a P3: the executable bit now follows Git's owner-execute rule.
 
+A third round (**APPROVE**) raised a P3: the path check did not resolve `..` segments. It was
+fixed with a failing-first test; that last two-line change was not separately re-reviewed.
+
 A pre-existing non-Git gap is recorded as a known limitation: a directory symlink is not
 fingerprinted outside Git.
 
@@ -423,7 +426,7 @@ Re-running the deterministic drift battery on the fixed code
 This is a narrow accuracy edge that a slightly longer native hook could also reach; it does not
 change the conclusions in §7.
 
-Final QA on the branch head: 150 unit tests OK (133 at start), `validate` VALID, docs link check
+Final QA on the branch head: 151 unit tests OK (133 at start), `validate` VALID, docs link check
 and docs build OK, installed-package smoke OK, and `relwit gate` dogfooded on this checkout.
 
 **Not implemented (owner decision required):** deleting the supervision/mailbox/runner/telemetry

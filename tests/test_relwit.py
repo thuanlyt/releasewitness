@@ -2548,6 +2548,15 @@ class RelWitCliTests(unittest.TestCase):
         relwit.validate_config(config, errors)
         self.assertIn("config.paths.telemetry must be inside config.release_source.volatile_paths", errors)
 
+    def test_local_only_path_check_resolves_parent_segments(self) -> None:
+        # Final review P3: `work/telemetry/../../src` must not pass as a volatile path.
+        config = self.configure_qa()
+        config["paths"]["telemetry"] = "work/telemetry/../../src"
+        self.assertIn(
+            "config.paths.telemetry must be inside config.release_source.volatile_paths",
+            relwit.unsafe_local_only_paths(config),
+        )
+
     def test_committing_a_verified_deletion_keeps_qa_valid(self) -> None:
         # Review P2: QA ran with the file already deleted; committing that deletion is the same source.
         (relwit.ROOT / "old.txt").write_text("obsolete", encoding="utf-8")
