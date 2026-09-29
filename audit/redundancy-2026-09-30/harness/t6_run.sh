@@ -60,7 +60,7 @@ EOF
   } > "$EVID/raw/$name-A.relwit.txt" 2>&1
 fi
 python "$AUDIT/harness/summarize_run.py" "$EVID/raw/$name-A.jsonl" > "$EVID/raw/$name-A.summary.json"
-{ echo "## after attempt A"; git -C "$ws" log --oneline baseline^..HEAD; git -C "$ws" status --porcelain | grep -v '^?? work/'
+{ echo "## after attempt A"; git -C "$ws" log --oneline; git -C "$ws" status --porcelain | grep -v '^?? work/'
   [[ "$mode" != "n0" ]] && ( cd "$ws" && "$R" task list )
   "$AUDIT/harness/score.sh" "$ws" "$RW_SCRATCH/hidden/t1" "$name@A"; } > "$EVID/raw/$name-A.state.txt" 2>&1
 

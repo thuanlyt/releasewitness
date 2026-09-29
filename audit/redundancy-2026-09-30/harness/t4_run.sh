@@ -9,7 +9,7 @@ ws=$("$AUDIT/harness/make_ws.sh" "$name" clean "$mode" | tail -1)
 cat "$AUDIT/prompts/mode-$mode.md" "$AUDIT/prompts/common-constraints.md" "$AUDIT/prompts/task-t4-qa.md" > "$EVID/raw/$name-qa.prompt.md"
 run_claude "$ws" opus "$EVID/raw/$name-qa.prompt.md" "$name-qa" 2400
 python "$AUDIT/harness/summarize_run.py" "$EVID/raw/$name-qa.jsonl" > "$EVID/raw/$name-qa.summary.json"
-git -C "$ws" log --oneline baseline^..HEAD > "$EVID/raw/$name-qa.gitlog"
+git -C "$ws" log --oneline > "$EVID/raw/$name-qa.gitlog"
 git -C "$ws" status --porcelain >> "$EVID/raw/$name-qa.gitlog"
 "$AUDIT/harness/t4_drift.sh" "$ws" > "$EVID/raw/$name-drift.txt"
 git -C "$ws" rev-parse HEAD >> "$EVID/raw/$name-drift.txt"

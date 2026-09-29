@@ -35,10 +35,10 @@ kill_ws() {  # SIGKILL every process whose cwd is inside the workspace (session,
 triggered=""
 while kill -0 $leader 2>/dev/null; do
   p=$(progress)
-  if [[ -z "$triggered" && "$p" -ge 3 ]]; then triggered=$(date +%s); fi
-  if [[ -n "$triggered" && $(( $(date +%s) - triggered )) -ge 45 ]]; then break; fi
+  if [[ -z "$triggered" && "$p" -ge "${T3_MIN_FILES:-3}" ]]; then triggered=$(date +%s); fi
+  if [[ -n "$triggered" && $(( $(date +%s) - triggered )) -ge "${T3_DELAY:-45}" ]]; then break; fi
   if [[ $(( $(date +%s) - started )) -ge 1500 ]]; then break; fi
-  sleep 5
+  sleep 2
 done
 if kill -0 $leader 2>/dev/null; then
   kill_ws; kill -9 $leader 2>/dev/null
@@ -49,7 +49,7 @@ fi
 sleep 2
 {
   echo "## kill-time ground truth"; cat "$EVID/raw/$name.kill"
-  echo "## git log"; git -C "$ws" log --oneline baseline^..HEAD
+  echo "## git log"; git -C "$ws" log --oneline
   echo "## worktrees"; git -C "$ws" worktree list
   while read -r wt; do
     echo "### $wt status"; git -C "$wt" status --porcelain | grep -v '^?? work/'

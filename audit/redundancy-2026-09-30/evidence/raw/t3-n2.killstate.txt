@@ -1,0 +1,39 @@
+## kill-time ground truth
+KILLED after 127s (progress=3)
+## git log
+fatal: ambiguous argument 'baseline^..HEAD': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+## worktrees
+/tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3-n2  8b9038f [main]
+### /tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3-n2 status
+ M SPEC.md
+ M knowledge/project-brief.md
+ M ledgerlite/money.py
+ M relwit.config.json
+ M tests/test_money.py
+ M work/SUPERVISOR_REPORT.md
+ M work/completed/COMPLETED.md
+ M work/registry.json
+ M work/reports/REPORTS.md
+ M work/supervisor/LATEST_CYCLE.md
+ M work/supervisor/state.json
+### /tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3-n2 diffstat vs baseline
+ SPEC.md                         |  26 +++++++
+ knowledge/project-brief.md      |   7 +-
+ ledgerlite/money.py             |  45 +++++++++---
+ relwit.config.json              |  82 +++++++++++++++++++++-
+ tests/test_money.py             |  58 +++++++++++++++-
+ work/SUPERVISOR_REPORT.md       |  87 ++++++++++++++++++++++-
+ work/completed/COMPLETED.md     |   1 +
+ work/registry.json              | 150 +++++++++++++++++++++++++++++++++++++++-
+ work/reports/REPORTS.md         |   1 +
+ work/supervisor/LATEST_CYCLE.md |  87 ++++++++++++++++++++++-
+ work/supervisor/state.json      |  10 ++-
+ 11 files changed, 535 insertions(+), 19 deletions(-)
+## relwit task list
+RW-0001	needs_review	L2	implementer-1	Currency model and money helpers (C1-C3) + SPEC Currencies section	deps:-
+RW-0002	planned	L2	-	Invoice currency, CSV currency column and CLI --currency (C4-C6)	deps:RW-0001
+RW-0003	planned	L2	-	Independent review of multi-currency change	deps:RW-0002
+## hidden score of main working tree at kill
+{"label": "t3-n2@kill", "head": "8b9038f", "dirty_nonwork_paths": 11, "visible": "OK", "hidden_pass": 4, "hidden_total": 8, "hidden_failed": ["test_C3_unsupported", "test_C4_invoice_jpy", "test_C6_csv_currency_column", "test_C7_cli_currency"]}

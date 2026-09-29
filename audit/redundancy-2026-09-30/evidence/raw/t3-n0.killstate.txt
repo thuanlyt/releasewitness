@@ -1,0 +1,22 @@
+## kill-time ground truth
+KILLED after 112s (progress=9)
+## git log
+fatal: ambiguous argument 'baseline^..HEAD': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+## worktrees
+/tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3-n0  5938fbb [main]
+### /tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3-n0 status
+### /tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3-n0 diffstat vs baseline
+ SPEC.md               | 39 ++++++++++++++++++++++++++++++++------
+ ledgerlite/cli.py     | 22 ++++++++++++++++------
+ ledgerlite/export.py  | 12 ++++++++----
+ ledgerlite/invoice.py | 29 ++++++++++++++++------------
+ ledgerlite/money.py   | 28 +++++++++++++++++++--------
+ tests/test_cli.py     | 52 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/test_export.py  | 17 ++++++++++++++---
+ tests/test_invoice.py | 42 +++++++++++++++++++++++++++++++++++++++++
+ tests/test_money.py   | 30 ++++++++++++++++++++++++++++-
+ 9 files changed, 231 insertions(+), 40 deletions(-)
+## hidden score of main working tree at kill
+{"label": "t3-n0@kill", "head": "5938fbb", "dirty_nonwork_paths": 0, "visible": "OK", "hidden_pass": 8, "hidden_total": 8, "hidden_failed": []}
