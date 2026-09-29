@@ -50,13 +50,19 @@ is generated locally by `init` in the project being assured.
 
 ## 2026-09 redundancy study: what changed
 
-An independent study ran 56 real Claude Code sessions (Opus 5.5 lead, Sonnet 5.5
-workers) comparing native Claude Code, native Claude Code plus RelWit assurance,
-and full RelWit supervision. Native Claude Code matched full supervision on
-correctness, review and recovery at 1.9–4.8× lower cost. The one property RelWit
-adds is a tool-computed verdict that QA applies to the exact source being
-released, and even that is reproducible with a small Git hook. See the
-[redundancy report](audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md).
+A repository-backed empirical self-audit ran 56 real Claude Code sessions
+(Opus 5.5 lead, Sonnet 5.5 workers) comparing native Claude Code, native Claude
+Code plus RelWit assurance, and full RelWit supervision. Full supervision cost
+1.9–4.8× more per task and took 1.8–5.6× longer without improving the final
+correctness or recovery outcomes in this fixture. The one property RelWit adds
+is a tool-computed verdict that QA applies to the exact source being released,
+and even that is reproducible with a small Git hook.
+
+The study is inspectable rather than trust-me prose: see the
+[full report](audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md),
+[experiment matrix](audit/redundancy-2026-09-30/EXPERIMENT_MATRIX.md),
+[reproduction guide](audit/redundancy-2026-09-30/REPRODUCE.md) and committed
+evidence pack under `audit/redundancy-2026-09-30/evidence/`.
 
 As a result:
 
