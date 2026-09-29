@@ -1,0 +1,51 @@
+$ relwit agent register --id w1 --role worker --scope ledgerlite/money.py --scope tests/test_money.py
+  registered agent w1 at work/agents/w1
+  exit=0
+$ relwit agent register --id w2 --role worker --scope ledgerlite --scope tests
+  registered agent w2 at work/agents/w2
+  exit=0
+$ relwit task new --title X --level L1 --owner supervisor --scope ledgerlite/money.py --scope tests/test_money.py --acceptance a
+  RW-0001
+  exit=0
+$ relwit task new --title Y --level L1 --owner supervisor --scope ledgerlite --acceptance b
+  RW-0002
+  exit=0
+$ relwit task claim RW-0001 --agent w1
+  RW-0001 claimed by w1
+  exit=0
+== P1: overlapping writer claim (parent subtree of an active scope)
+$ relwit task claim RW-0002 --agent w2
+  error: scope conflicts with active task RW-0001: ['ledgerlite/money.py', 'tests/test_money.py']
+  exit=2
+== P2: worker edits an OUT-OF-SCOPE file but declares only in-scope files
+$ relwit task report RW-0001 --agent w1 --result completed --summary s --next-action review --file ledgerlite/money.py --check unittest: pass
+  work/reports/inbox/RW-0001-20260929T183750Z-5b5d43.md
+  exit=0
+== P3: same, but the worker honestly declares the out-of-scope file
+$ relwit task new --title Z --level L1 --owner supervisor --scope tests/test_money.py --acceptance c
+  RW-0003
+  exit=0
+$ relwit task claim RW-0003 --agent w1
+  RW-0003 claimed by w1
+  exit=0
+$ relwit task report RW-0003 --agent w1 --result completed --summary s --next-action review --file ledgerlite/export.py --check x
+  error: reported file outside task scope: ledgerlite/export.py
+  exit=2
+== P4: identity is self-declared: the worker records review evidence as 'reviewer'
+$ relwit task evidence RW-0001 --kind review --agent reviewer --value looks fine
+  evidence added to RW-0001
+  exit=0
+$ relwit task update RW-0001 --status needs_review --agent reviewer
+  RW-0001: needs_review
+  exit=0
+$ relwit task update RW-0001 --status done --agent reviewer
+  RW-0001: done
+  exit=0
+== git diff --stat vs declared files
+ ledgerlite/export.py        |   1 +
+ ledgerlite/money.py         |   1 +
+ relwit.config.json          |  24 +++++++++
+ work/completed/COMPLETED.md |   1 +
+ work/registry.json          | 119 +++++++++++++++++++++++++++++++++++++++++++-
+ work/reports/REPORTS.md     |   1 +
+ 6 files changed, 145 insertions(+), 2 deletions(-)

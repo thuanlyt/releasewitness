@@ -1,0 +1,3 @@
+# Live run transcripts are committed later in compressed form (evidence/raw-archive).
+evidence/raw/*.jsonl
+evidence/raw/*.stderr
