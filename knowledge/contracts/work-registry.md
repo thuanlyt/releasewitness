@@ -58,7 +58,10 @@ errors (for example a Git repository without commits or a malformed state file)
 exit 2 with `error:`. `--require-clean` also requires Git release durability.
 The gate trusts the local QA record in `work/supervisor/state.json`, consistent
 with the trusted-local model: anyone who can write that file can forge a pass,
-so CI must run `relwit qa` in the same job before `relwit gate`. The gate is intended as a CI step or a
+so CI must run `relwit qa` in the same job before `relwit gate`. The gate also
+fails closed when `paths.runtime_spool` or `paths.telemetry` lies outside the
+declared `release_source.volatile_paths`, because such a path would either keep
+QA permanently stale or remove real source from the fingerprint. The gate is intended as a CI step or a
 coding-agent hook (for Claude Code, a `PreToolUse` hook that maps a non-zero
 exit to exit 2 blocks the guarded command).
 

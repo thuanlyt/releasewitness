@@ -2520,6 +2520,34 @@ class RelWitCliTests(unittest.TestCase):
         os.symlink("data.txt", relwit.ROOT / "copy.txt")
         self.assertEqual(relwit.validate_qa_source(config, {"last_qa": result})["status"], "QA_STALE")
 
+    @unittest.skipIf(os.name == "nt", "POSIX file modes")
+    def test_executable_bit_follows_git_owner_rule(self) -> None:
+        # Re-review P3: Git records only the owner execute bit.
+        script = relwit.ROOT / "run.sh"
+        script.write_text("#!/bin/sh\necho run\n", encoding="utf-8")
+        script.chmod(0o755)
+        config = self.configure_qa()
+        self.initialize_git_baseline()
+        result = relwit.run_qa(config, "owner-exec-test")
+        script.chmod(0o654)
+        self.git_output("commit", "-qam", "owner loses execute bit")
+        self.assertEqual(relwit.validate_qa_source(config, {"last_qa": result})["status"], "QA_STALE")
+
+    def test_gate_fails_closed_when_telemetry_path_would_hide_source(self) -> None:
+        # Re-review P2: telemetry is exempted from the fingerprint, so it must be a declared volatile path.
+        config = self.configure_qa()
+        config["paths"]["telemetry"] = "src"
+        relwit.save_config(config)
+        (relwit.ROOT / "src").mkdir(exist_ok=True)
+        (relwit.ROOT / "src" / "app.py").write_text("print('app')", encoding="utf-8")
+        self.assertEqual(self.invoke("qa")[0], 0)
+        code, _, stderr = self.invoke("gate")
+        self.assertEqual(code, 1)
+        self.assertIn("config.paths.telemetry must be inside config.release_source.volatile_paths", stderr)
+        errors: list[str] = []
+        relwit.validate_config(config, errors)
+        self.assertIn("config.paths.telemetry must be inside config.release_source.volatile_paths", errors)
+
     def test_committing_a_verified_deletion_keeps_qa_valid(self) -> None:
         # Review P2: QA ran with the file already deleted; committing that deletion is the same source.
         (relwit.ROOT / "old.txt").write_text("obsolete", encoding="utf-8")

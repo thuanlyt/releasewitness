@@ -21,8 +21,9 @@ Changes motivated by the 2026-09 redundancy study
 - **Added:** `relwit qa` as an alias of `supervisor qa`.
 - **Fixed:** the runtime spool and telemetry directories now ignore themselves in Git, so
   raw diagnostics in an external project are no longer picked up by `git add -A`.
-  The ignore file is written only inside declared volatile paths, and `validate`
-  rejects a `runtime_spool` outside them.
+  The ignore file is written only inside declared volatile paths. `validate` and
+  `relwit gate` reject a `runtime_spool` or `telemetry` path outside them (fail
+  closed), and the executable bit follows Git's owner-execute rule.
 - **Deprecated:** the supervision layer (DAG, dispatch, mailboxes, runner bridge,
   supervisor cycle, autopilot, checkpoints, knowledge skills, usage telemetry), pending an
   owner decision (ADR-0011).

@@ -21,6 +21,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import time
@@ -976,7 +977,7 @@ def release_source_fingerprint(config: dict[str, Any]) -> dict[str, Any]:
             # A deleted file is absent from the source, whether or not the
             # deletion has been staged or committed yet.
             continue
-        kind = "exec" if path.stat().st_mode & 0o111 else "file"
+        kind = "exec" if path.stat().st_mode & stat.S_IXUSR else "file"
         manifest.append({"path": relative, "sha256": digest, "bytes": byte_count, "kind": kind})
     dirty_state = "dirty" if dirty_paths else "clean"
     if not git_available:
@@ -1168,6 +1169,31 @@ def release_durability_snapshot(
 
 
 LOCAL_ONLY_IGNORE = "# Local-only RelWit runtime data: never commit.\n*\n"
+
+
+def unsafe_local_only_paths(config: dict[str, Any]) -> list[str]:
+    """Local-only data paths that lie outside the declared volatile paths.
+
+    Such a path either changes the source manifest after every write (perpetual
+    QA_STALE) or, via the automatic telemetry exemption, silently removes real
+    source from the fingerprint. Both are refused rather than guessed at.
+    """
+
+    settings = config.get("release_source")
+    declared = settings.get("volatile_paths") if isinstance(settings, dict) else None
+    if declared is None:
+        declared = DEFAULT_CONFIG["release_source"]["volatile_paths"]
+    declared = [normalize_scope(str(value)) for value in declared] if isinstance(declared, list) else []
+    paths_config = config.get("paths") if isinstance(config.get("paths"), dict) else {}
+    problems = []
+    for key in ("runtime_spool", "telemetry"):
+        value = paths_config.get(key, DEFAULT_CONFIG["paths"][key])
+        if not isinstance(value, str):
+            continue
+        relative = normalize_scope(value)
+        if relative == "." or not release_path_is_volatile(relative, declared):
+            problems.append(f"config.paths.{key} must be inside config.release_source.volatile_paths")
+    return problems
 
 
 def ensure_local_only_dir(config: dict[str, Any], path: Path) -> None:
@@ -3796,7 +3822,7 @@ def evaluate_gate(config: dict[str, Any], state: dict[str, Any], require_clean: 
     last_qa = last_qa if isinstance(last_qa, dict) else {}
     source = release_source_fingerprint(config)
     qa_source = validate_qa_source(config, {"last_qa": last_qa}, source)
-    reasons: list[str] = []
+    reasons: list[str] = list(unsafe_local_only_paths(config))
     qa_status = gate_text(last_qa.get("status") or "missing")
     if qa_status != "pass":
         reasons.append(f"no passing QA record (last QA status: {qa_status}); run `relwit qa`")
@@ -4152,15 +4178,7 @@ def validate_config(config: dict[str, Any], errors: list[str]) -> None:
                 errors.append(str(exc))
         if any(normalize_scope(value) == "." for value in volatile_paths):
             errors.append("config.release_source.volatile_paths must not contain the project root")
-        paths_config = config.get("paths") if isinstance(config.get("paths"), dict) else {}
-        spool_value = paths_config.get("runtime_spool", DEFAULT_CONFIG["paths"]["runtime_spool"])
-        if isinstance(spool_value, str):
-            spool_relative = normalize_scope(spool_value)
-            declared = [normalize_scope(value) for value in volatile_paths]
-            # Raw diagnostics outside declared volatile paths would either stale every QA
-            # (they change the source manifest) or, if ignored, hide real source.
-            if spool_relative == "." or not release_path_is_volatile(spool_relative, declared):
-                errors.append("config.paths.runtime_spool must be inside config.release_source.volatile_paths")
+        errors.extend(unsafe_local_only_paths(config))
 
     supervisor = config.get("supervisor")
     if not isinstance(supervisor, dict):
