@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # t6_run.sh <n0|n1|n2>: TEST 6 failure / fallback / handoff.
-#  A. A Sonnet worker attempts the TEST-1 task with a hard `--max-turns 6` limit
+#  A. A Sonnet worker attempts the TEST-1 task with a hard `--max-turns $MT` limit
 #     (a real runtime termination, not a simulated outage).
 #     n0: plain worker session; n1: worker also claims/reports a RelWit item;
 #     n2: dispatched through RelWit's own runner bridge (`relwit worker run`).
 #  B. A fresh Opus session (different model) takes over with no conversation.
 #  C. A fresh Opus auditor answers what happened, from durable artifacts only.
 source "$(dirname "$0")/lib.sh"; set +e
-mode="$1" name="t6-$1"
+mode="$1" name="t6${T6_SUFFIX:-}-$1"; MT="${T6_MAX_TURNS:-6}"
 ws=$("$AUDIT/harness/make_ws.sh" "$name" clean "$mode" | tail -1)
 R="$RELWIT_VENV/bin/relwit"
 task="$AUDIT/prompts/task-t1-currency.md"
@@ -15,14 +15,14 @@ mkdir -p "$EVID/raw"
 
 if [[ "$mode" == "n0" ]]; then
   cat "$AUDIT/prompts/task-t6-worker.md" "$task" > "$EVID/raw/$name-A.prompt.md"
-  run_claude "$ws" sonnet "$EVID/raw/$name-A.prompt.md" "$name-A" 1800 --max-turns 6
+  run_claude "$ws" sonnet "$EVID/raw/$name-A.prompt.md" "$name-A" 1800 --max-turns $MT
 elif [[ "$mode" == "n1" ]]; then
   ( cd "$ws" && "$R" task new --title "Add multi-currency support" --level L2 --owner supervisor --scope . \
       --acceptance "Currencies section in SPEC.md implemented per task-t1 rules 1-6 with tests" >/dev/null )
   { cat "$AUDIT/prompts/task-t6-worker.md"
     printf '\nRecord your work in ReleaseWitness: before editing run `relwit task claim RW-0001 --agent implementer`; when finished run `relwit task report RW-0001 --agent implementer --result completed --summary "..." --next-action review --file <path> ... --check "<command>: <result>"`.\n'
     cat "$task"; } > "$EVID/raw/$name-A.prompt.md"
-  run_claude "$ws" sonnet "$EVID/raw/$name-A.prompt.md" "$name-A" 1800 --max-turns 6
+  run_claude "$ws" sonnet "$EVID/raw/$name-A.prompt.md" "$name-A" 1800 --max-turns $MT
 else
   # RelWit's documented opt-in runner bridge: argv adapter with {assignment_path}.
   adapter="$ws/.relwit-adapter.sh"
@@ -36,7 +36,7 @@ Your assignment (already pulled; the task is in_progress) is at: \$1
 Implement it, run the tests, commit, and submit with \\\`relwit task report\\\`."
 PATH="$RELWIT_VENV/bin:\$PATH" env -u CLAUDE_CODE_SESSION_ID -u CLAUDE_CODE_REMOTE_SESSION_ID \\
   -u CLAUDE_ADDITIONAL_DIRECTORIES -u CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD -u CLAUDE_CODE_CHILD_SESSION IS_SANDBOX=1 \\
-  claude -p "\$prompt" --model sonnet --max-turns 6 --dangerously-skip-permissions \\
+  claude -p "\$prompt" --model sonnet --max-turns $MT --dangerously-skip-permissions \\
   --output-format stream-json --verbose > "$EVID/raw/$name-A.jsonl" 2> "$EVID/raw/$name-A.stderr"
 rc=\$?
 echo "adapter: claude exited \$rc"
