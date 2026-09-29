@@ -381,6 +381,22 @@ do not invalidate a fresh QA result. A missing or mismatched fingerprint is
 automatically. Run `relwit supervisor qa` again after a
 source, test or QA/release configuration change.
 
+### Assurance-only gate / Gate chỉ dùng cho assurance
+
+`relwit qa` runs the configured QA and binds the result to the current source;
+`relwit gate` exits `0` only when that passing record still matches the source,
+and `1` with a `GATE FAIL:` reason otherwise. Add `--require-clean` to also
+require a clean committed Git tree. Neither command needs work items, a roster
+or the supervision skills, so they can run in CI or as a coding-agent hook:
+
+```bash
+relwit qa
+relwit gate --require-clean   # non-zero exit blocks the CI job or the hook
+```
+
+In Claude Code, a `PreToolUse` hook on the release command can run
+`relwit gate --require-clean >&2 || exit 2`; exit code 2 blocks the tool call.
+
 ### Local release durability / Độ bền source local
 
 Task `done`, QA `pass` and local release durability are separate decisions. The
@@ -388,9 +404,11 @@ production snapshot adds `release_source_durability`. On a Git-backed project it
 is `pass` only when Git `HEAD` is concrete, the release-source state is clean,
 there are no non-ignored untracked release-source files, and the current QA
 source fingerprint is valid. QA run on a dirty tree may remain valid for
-development, but it cannot make the strong release gate ready. A commit after
-QA changes the source identity, even when the file content is otherwise the
-same, so QA must run again on the durable commit.
+development, but it cannot make the strong release gate ready. The source
+fingerprint covers release-source content and the QA configuration, not the
+commit SHA: committing exactly the content QA verified, committing only volatile
+evidence under `work/`, or rewording a commit message keeps QA valid, while any
+change to release-source bytes requires QA to run again.
 
 The snapshot also records the current branch, locally known upstream ref and
 ahead/behind relation. These are observational metadata only: `origin/main` is

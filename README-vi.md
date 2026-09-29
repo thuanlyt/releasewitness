@@ -61,6 +61,28 @@ Repository public không đóng gói runtime history của maintainer. `work/` �
 | Công việc dài bị mất context bền vững | Knowledge card, report và checkpoint cô đọng |
 | Runtime lập trình AI có workflow khác nhau | Một contract local chung quanh output của chúng |
 
+## Nghiên cứu redundancy 2026-09: điều gì thay đổi
+
+Một nghiên cứu độc lập đã chạy 56 session Claude Code thật (Opus 5.5 làm lead,
+Sonnet 5.5 làm worker). Nghiên cứu so sánh ba chế độ: Claude Code native, Claude
+Code native kèm RelWit assurance, và RelWit supervision đầy đủ. Claude Code
+native cho kết quả ngang supervision đầy đủ về correctness, review và recovery,
+với chi phí thấp hơn 1,9–4,8 lần. Thuộc tính duy nhất RelWit thêm vào là một
+kết luận do tool tính: QA áp dụng cho đúng source đang release. Ngay cả thuộc
+tính đó cũng tái tạo được bằng một Git hook nhỏ. Xem
+[báo cáo redundancy](audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md).
+
+Hệ quả:
+
+- Để coding runtime lập kế hoạch, chọn model và thực thi. Chỉ dùng RelWit làm
+  gate gắn với source: chạy `relwit qa`, rồi `relwit gate` trong CI hoặc agent
+  hook.
+- QA fingerprint giờ dựa trên nội dung source. Commit chỉ có evidence, hoặc
+  sửa commit message, không còn làm QA mất hiệu lực.
+- Lớp supervision (DAG, mailbox, runner, autopilot, telemetry) **deprecated**,
+  chờ owner quyết định
+  ([ADR-0011](knowledge/decisions/0011-assurance-only-boundary.md)).
+
 ## Nếu tôi đã dùng Claude Code, Codex, Beads hoặc worktree thì sao?
 
 Các công cụ đó lập kế hoạch và thực thi công việc. ReleaseWitness xác minh
@@ -83,13 +105,21 @@ Claude/Codex subagent, Git worktree manager hay CI của project.
 - Evidence có provenance được kiểm soát và source anchor có thể lặp lại.
 - Runner/QA summary bền vững được giới hạn và sanitize; raw diagnostic mặc định
   chỉ nằm local.
-- QA gắn với Git HEAD, source content, dirty-state provenance và QA config.
+- QA gắn với nội dung release source và QA config; Git HEAD và dirty state
+  được ghi lại như provenance.
+- `relwit gate` trả exit code khác 0 khi không có QA pass khớp với source hiện
+  tại, nên CI hoặc coding-agent hook có thể chặn release.
 - Cần review evidence trước khi work item được coi là done.
 - Release durability kiểm tra Git cleanliness, untracked file và QA hiện tại
   tách biệt với task completion.
 - Quality gate được cấu hình rõ; quyền deploy vẫn thuộc project owner.
 
-## Supervisor nhẹ là capability tùy chọn
+## Supervisor nhẹ là capability tùy chọn (deprecated)
+
+> Deprecated theo [ADR-0011](knowledge/decisions/0011-assurance-only-boundary.md).
+> Trong nghiên cứu 2026-09, lớp này làm tăng chi phí và churn nhưng không cải
+> thiện correctness so với orchestration native của Claude Code. Nó vẫn được giữ
+> nguyên, không thay đổi, cho đến khi owner quyết định.
 
 Khi project cần supervisor, `$relwit` có thể biến goal ngắn thành workflow hữu
 hạn: ghi assumption, tạo work item theo dependency, dispatch assignment, ingest
@@ -164,7 +194,17 @@ Core path dùng được với một agent hoặc nhiều agent:
 implement → report evidence → review → source-bound QA → Git durability gate
 ```
 
-Nếu bật supervision, vòng tùy chọn thêm:
+Dùng chỉ cho assurance thì không cần work item, roster hay supervision skill:
+
+```bash
+relwit qa                      # chạy QA đã cấu hình, gắn kết quả với source hiện tại
+relwit gate --require-clean    # exit 0 chỉ khi QA đó còn áp dụng cho commit sạch
+```
+
+Trong Claude Code, một `PreToolUse` hook bảo vệ lệnh release có thể chạy
+`relwit gate --require-clean >&2 || exit 2`; exit code 2 sẽ chặn tool call.
+
+Nếu bật supervision (deprecated), vòng tùy chọn thêm:
 
 ```powershell
 relwit supervisor cycle --run-qa

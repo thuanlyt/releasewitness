@@ -14,8 +14,13 @@ reports, QA and checkpoints to choose the next safe cycle.*
 
 ### Layers
 
-1. **Assurance CLI** — `relwit/cli.py` validates evidence, review transitions, source-bound QA and Git release durability.
-2. **Optional supervision skills** — context, orchestration, worker implementation, review and autopilot provide narrow operating instructions when a project wants coordination.
+> Boundary update ([ADR-0011](../knowledge/decisions/0011-assurance-only-boundary.md), proposed):
+> the assurance core is `relwit qa` + `relwit gate`, which need no work ledger. Layers 2, 5 and the
+> scheduling model below are deprecated after the
+> [2026-09 redundancy study](../audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md).
+
+1. **Assurance CLI** — `relwit/cli.py` validates evidence, review transitions, source-bound QA and Git release durability; `relwit gate` turns the QA/source check into an exit code for CI and agent hooks.
+2. **Optional supervision skills (deprecated)** — context, orchestration, worker implementation, review and autopilot provide narrow operating instructions when a project wants coordination.
 3. **Evidence ledger** — `knowledge/` and generated `work/` state keep provenance, handovers and checkpoints inspectable.
 4. **Knowledge ledger** — `knowledge/` stores compact, source-anchored context so agents do not reread unrelated files.
 5. **Optional work ledger** — `work/` is generated in the assured project after `init`; it stores registry state, work items, mailboxes, reports, evidence and checkpoints when coordination is enabled.
@@ -71,8 +76,11 @@ thể review.
 
 ### Các lớp kiến trúc
 
-1. **Assurance CLI** kiểm tra evidence, review transition, source-bound QA và Git release durability.
-2. **Supervisor skill tùy chọn** gồm context, orchestrator, worker, review và autopilot khi project cần điều phối.
+> Cập nhật boundary (ADR-0011, proposed): lõi assurance là `relwit qa` + `relwit gate`, không cần work
+> ledger. Lớp 2, 5 và mô hình dispatch bên dưới deprecated sau nghiên cứu redundancy 2026-09.
+
+1. **Assurance CLI** kiểm tra evidence, review transition, source-bound QA và Git release durability; `relwit gate` biến kiểm tra QA/source thành exit code cho CI và agent hook.
+2. **Supervisor skill tùy chọn (deprecated)** gồm context, orchestrator, worker, review và autopilot khi project cần điều phối.
 3. **Evidence ledger** trong `knowledge/` và state `work/` local giữ provenance, handover và checkpoint.
 4. **Knowledge ledger** trong `knowledge/` lưu ngữ cảnh cô đọng có source anchor.
 5. **Work ledger tùy chọn** trong `work/` được `init` tạo rỗng tại project cần assurance.

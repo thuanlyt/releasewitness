@@ -9,6 +9,14 @@ workflow is optional. It answers four questions:
 3. What does the user actually type in Codex, Claude Code or Antigravity?
 4. Which Markdown files prove that work was assigned, reported and verified?
 
+> **Start here if you already use Claude Code, Codex or another coding agent.**
+> The 2026-09 [redundancy study](../audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md)
+> found that native orchestration matched RelWit supervision at lower cost. The
+> recommended use is assurance-only: configure `supervisor.qa_commands`, run
+> `relwit qa`, and use `relwit gate --require-clean` as a CI step or agent hook.
+> The supervision walkthrough below is deprecated
+> ([ADR-0011](../knowledge/decisions/0011-assurance-only-boundary.md)).
+
 > **Vietnamese / Tiếng Việt:** Nếu đây là lần đầu bạn dùng ReleaseWitness, hãy làm đúng
 > ví dụ từ đầu đến cuối. Bạn không cần tự thiết kế DAG hoặc viết prompt task dài;
 > supervisor sẽ tạo assignment trong `work/outbox/`.

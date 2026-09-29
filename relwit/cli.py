@@ -330,6 +330,7 @@ def load_telemetry(config: dict[str, Any]) -> dict[str, Any]:
 def save_telemetry(config: dict[str, Any], telemetry: dict[str, Any]) -> None:
     telemetry["version"] = TELEMETRY_SCHEMA_VERSION
     telemetry["updated_at"] = now_iso()
+    ensure_local_only_dir(telemetry_store_path(config).parent)
     atomic_write(
         telemetry_store_path(config),
         json.dumps(telemetry, indent=2, ensure_ascii=False) + "\n",
@@ -969,12 +970,15 @@ def release_source_fingerprint(config: dict[str, Any]) -> dict[str, Any]:
     if not git_available:
         dirty_state = "unknown"
     qa_config_fingerprint = _qa_release_config_fingerprint(config)
+    # The fingerprint identifies what QA verified: release-source bytes plus the
+    # QA contract. HEAD and dirty state are recorded as metadata but are not
+    # hashed, so committing only volatile evidence or rewording a commit does
+    # not invalidate QA for identical source. Durability still requires a clean
+    # committed tree separately.
     payload = {
+        "algorithm": "content-v2",
         "version": release_version,
         "vcs": "git" if git_available else "filesystem",
-        "head_sha": head_sha,
-        "dirty_state": dirty_state,
-        "dirty_paths": dirty_paths,
         "manifest": manifest,
         "qa_config_fingerprint": qa_config_fingerprint,
     }
@@ -1148,6 +1152,22 @@ def release_durability_snapshot(config: dict[str, Any], state: dict[str, Any]) -
     }
 
 
+LOCAL_ONLY_IGNORE = "# Local-only RelWit runtime data: never commit.\n*\n"
+
+
+def ensure_local_only_dir(path: Path) -> None:
+    """Create a local-only directory that Git ignores wherever it is configured.
+
+    `init` in an external project writes no root ignore rule, so raw diagnostics
+    would otherwise be picked up by `git add -A` (audit/redundancy-2026-09-30, 6.6).
+    """
+
+    path.mkdir(parents=True, exist_ok=True)
+    ignore = path / ".gitignore"
+    if not ignore.exists():
+        atomic_write(ignore, LOCAL_ONLY_IGNORE)
+
+
 def ensure_text_file(path: Path, content: str) -> None:
     """Create a required empty scaffold file without overwriting runtime data."""
 
@@ -1164,8 +1184,10 @@ def ensure_layout() -> None:
     ):
         directory.mkdir(parents=True, exist_ok=True)
     config = load_config()
-    for key in ("agent_root", "reports_inbox", "reports_archive", "outbox", "checkpoints", "evidence", "telemetry"):
+    for key in ("agent_root", "reports_inbox", "reports_archive", "outbox", "checkpoints", "evidence"):
         path_for(config, key).mkdir(parents=True, exist_ok=True)
+    for key in ("runtime_spool", "telemetry"):
+        ensure_local_only_dir(path_for(config, key))
     for key in ("completed_tasks", "reports_index", "supervisor_report", "supervisor_cycle", "supervisor_state"):
         path_for(config, key).parent.mkdir(parents=True, exist_ok=True)
     if not REGISTRY.exists():
@@ -2695,6 +2717,7 @@ def write_runtime_spool(
                 f"- disposition: `{safe_markdown_code(record.get('disposition', 'needs_input'))}`",
                 "",
             ]
+    ensure_local_only_dir(spool_path.parent)
     atomic_write(spool_path, "\n".join(lines))
     return spool_path
 
@@ -3731,6 +3754,60 @@ def cmd_supervisor_qa(_: argparse.Namespace) -> int:
     return 0 if result["status"] in {"pass", "not_configured"} else 1
 
 
+def evaluate_gate(config: dict[str, Any], state: dict[str, Any], require_clean: bool) -> dict[str, Any]:
+    """Assurance-only release gate: is there a passing QA record for the current source?
+
+    Independent of work items, roster and supervision state, so it can run as a
+    CI step or a coding-agent hook (audit/redundancy-2026-09-30, sections 6.4-6.5).
+    """
+
+    last_qa = state.get("last_qa") if isinstance(state, dict) else None
+    last_qa = last_qa if isinstance(last_qa, dict) else {}
+    source = release_source_fingerprint(config)
+    qa_source = validate_qa_source(config, {"last_qa": last_qa}, source)
+    reasons: list[str] = []
+    qa_status = last_qa.get("status") or "missing"
+    if qa_status != "pass":
+        reasons.append(f"no passing QA record (last QA status: {qa_status}); run `relwit qa`")
+    elif qa_source["status"] != "valid":
+        reasons.append(f"{qa_source['status']}: {qa_source.get('reason', 'QA does not apply to the current source')}")
+    result: dict[str, Any] = {
+        "qa_status": qa_status,
+        "qa_source_state": qa_source["status"],
+        "qa_evidence": last_qa.get("evidence"),
+        "qa_recorded_head_sha": last_qa.get("source_head_sha"),
+        "source_fingerprint": source["fingerprint"],
+        "source_head_sha": source["head_sha"],
+        "source_dirty_state": source["dirty_state"],
+    }
+    if require_clean:
+        durability = release_durability_snapshot(config, {"last_qa": last_qa})
+        result["durability"] = durability["status"]
+        # A QA problem is already reported above; only add distinct durability failures.
+        if durability["status"] != "pass" and durability["reason"] != f"QA source state is {qa_source['status']}":
+            reasons.append(f"durability {durability['status']}: {durability['reason']}")
+    result["reasons"] = reasons
+    result["status"] = "pass" if not reasons else "fail"
+    return result
+
+
+def cmd_gate(args: argparse.Namespace) -> int:
+    config = load_config()
+    result = evaluate_gate(config, load_supervisor_state(config), args.require_clean)
+    if args.json:
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+    else:
+        for key in ("qa_status", "qa_source_state", "source_head_sha", "source_dirty_state", "durability"):
+            if key in result:
+                print(f"{key}={result[key]}")
+        if result["status"] == "pass":
+            print("GATE PASS")
+        else:
+            for reason in result["reasons"]:
+                print(f"GATE FAIL: {reason}", file=sys.stderr)
+    return 0 if result["status"] == "pass" else 1
+
+
 def cmd_supervisor_cycle(args: argparse.Namespace) -> int:
     ensure_layout()
     config = load_config()
@@ -4241,6 +4318,17 @@ def build_parser() -> argparse.ArgumentParser:
     context.add_argument("--task", dest="task_id")
     context.add_argument("--max-chars", type=int, default=8000)
     context.set_defaults(func=cmd_context)
+
+    qa_alias = sub.add_parser("qa", help="run configured QA and bind the result to the current source")
+    qa_alias.set_defaults(func=cmd_supervisor_qa)
+
+    gate = sub.add_parser(
+        "gate",
+        help="exit 0 only if a passing QA record matches the current source (CI step or agent hook)",
+    )
+    gate.add_argument("--require-clean", action="store_true", help="also require clean committed Git source")
+    gate.add_argument("--json", action="store_true", help="print the gate result as JSON")
+    gate.set_defaults(func=cmd_gate)
 
     validate = sub.add_parser("validate", help="validate project, skills, roster and registry")
     validate.set_defaults(func=cmd_validate)

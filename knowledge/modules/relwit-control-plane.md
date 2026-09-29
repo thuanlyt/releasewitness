@@ -2,7 +2,7 @@
 
 - `freshness`: verified (2026-09-06)
 - `owner`: orchestrator
-- `source_anchor`: `relwit/cli.py:default_root`, `relwit/cli.py:configure_root`, `relwit/cli.py:validate_relative_scope`, `relwit/cli.py:scope_overlaps`, `relwit/cli.py:scope_within`, `relwit/cli.py:append_markdown`, `relwit/cli.py:agent_claim_blocker`, `relwit/cli.py:cmd_task_new`, `relwit/cli.py:cmd_task_claim`, `relwit/cli.py:cmd_task_update`, `relwit/cli.py:cmd_task_report`, `relwit/cli.py:cmd_worker_pull`, `relwit/cli.py:ingest_reports_locked`, `relwit/cli.py:choose_next_action`, `relwit/cli.py:normalize_evidence_provenance`, `relwit/cli.py:normalize_evidence_source`, `relwit/cli.py:parse_evidence`, `relwit/cli.py:registry_revision`, `relwit/cli.py:release_source_fingerprint`, `relwit/cli.py:git_upstream_snapshot`, `relwit/cli.py:release_durability_snapshot`, `relwit/cli.py:validate_qa_source`, `relwit/cli.py:supervisor_report_freshness`, `relwit/cli.py:build_supervisor_report`, `relwit/cli.py:cmd_supervisor_report`, `relwit/cli.py:cmd_context`, `relwit/cli.py:validate_registry`, `relwit/cli.py:ensure_layout`, `relwit/cli.py:main`, `relwit/cli.py:production_snapshot_details`, `relwit/cli.py:production_snapshot`, `relwit/cli.py:run_qa`, `relwit/cli.py:runner_settings`, `relwit/cli.py:runner_preflight_settings`, `relwit/cli.py:static_runner_readiness`, `relwit/cli.py:probe_runtime_readiness`, `relwit/cli.py:classify_runner_failure`, `relwit/cli.py:record_runtime_event`
+- `source_anchor`: `relwit/cli.py:default_root`, `relwit/cli.py:configure_root`, `relwit/cli.py:validate_relative_scope`, `relwit/cli.py:scope_overlaps`, `relwit/cli.py:scope_within`, `relwit/cli.py:append_markdown`, `relwit/cli.py:agent_claim_blocker`, `relwit/cli.py:cmd_task_new`, `relwit/cli.py:cmd_task_claim`, `relwit/cli.py:cmd_task_update`, `relwit/cli.py:cmd_task_report`, `relwit/cli.py:cmd_worker_pull`, `relwit/cli.py:ingest_reports_locked`, `relwit/cli.py:choose_next_action`, `relwit/cli.py:normalize_evidence_provenance`, `relwit/cli.py:normalize_evidence_source`, `relwit/cli.py:parse_evidence`, `relwit/cli.py:registry_revision`, `relwit/cli.py:release_source_fingerprint`, `relwit/cli.py:git_upstream_snapshot`, `relwit/cli.py:release_durability_snapshot`, `relwit/cli.py:validate_qa_source`, `relwit/cli.py:supervisor_report_freshness`, `relwit/cli.py:build_supervisor_report`, `relwit/cli.py:cmd_supervisor_report`, `relwit/cli.py:cmd_context`, `relwit/cli.py:validate_registry`, `relwit/cli.py:ensure_layout`, `relwit/cli.py:main`, `relwit/cli.py:production_snapshot_details`, `relwit/cli.py:production_snapshot`, `relwit/cli.py:evaluate_gate`, `relwit/cli.py:cmd_gate`, `relwit/cli.py:run_qa`, `relwit/cli.py:runner_settings`, `relwit/cli.py:runner_preflight_settings`, `relwit/cli.py:static_runner_readiness`, `relwit/cli.py:probe_runtime_readiness`, `relwit/cli.py:classify_runner_failure`, `relwit/cli.py:record_runtime_event`
 
 ## Responsibility
 
@@ -21,6 +21,7 @@ Create and transition work items, serialize state changes, print bounded context
 - `relwit telemetry record|summary`
 - `relwit checkpoint create`
 - `relwit validate`
+- `relwit qa` and `relwit gate [--require-clean] [--json]` (assurance-only; no registry required)
 - `python examples/multi-runtime-conformance/run_conformance.py`
 
 ## Public interfaces / contracts
@@ -53,8 +54,10 @@ Runner and QA output is runtime data first. Future writes keep only bounded
 sanitized summaries in `work/evidence/`; bounded redacted diagnostics go to
 the Git-ignored `work/.runtime-output/` spool. Historical tracked evidence is
 preserved and requires an explicit migration policy before cleanup. Successful
-QA binds its pass to a deterministic release-source fingerprint; stale or
-missing fingerprints fail the production snapshot until QA is rerun. Volatile
+QA binds its pass to a deterministic release-source fingerprint over source
+content and QA configuration (not HEAD or dirty paths, which are recorded as
+metadata); stale or missing fingerprints fail the production snapshot until QA
+is rerun. Volatile
 control-plane roots are configured explicitly in `release_source.volatile_paths`
 and excluded from the source manifest. The production snapshot separately
  evaluates `release_source_durability`: Git `HEAD`, clean nonvolatile tracked

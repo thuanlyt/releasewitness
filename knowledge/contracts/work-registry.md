@@ -43,14 +43,28 @@ machine-readable adapter evidence, while ambiguous text is not trusted.
 A successful QA record must also carry the release-source fingerprint, source
 VCS/HEAD and dirty-state provenance, QA/release configuration fingerprint and
 executed checks; a missing or mismatched source fingerprint is `QA_STALE` and
-cannot satisfy a release gate.
+cannot satisfy a release gate. The fingerprint (`algorithm: content-v2`) hashes
+the release-source content manifest and the QA/release configuration only;
+HEAD and dirty state are recorded metadata, not identity. Fingerprints recorded
+by the earlier HEAD-bound algorithm never match and therefore read as
+`QA_STALE` until QA is rerun.
+
+`relwit qa` (alias of `supervisor qa`) records QA for the current source and
+`relwit gate` evaluates it without any work item, roster or supervision state:
+exit 0 only when the last QA passed and its fingerprint matches the current
+source, exit 1 with a `GATE FAIL:` reason otherwise; `--require-clean` also
+requires Git release durability. The gate is intended as a CI step or a
+coding-agent hook (for Claude Code, a `PreToolUse` hook that maps a non-zero
+exit to exit 2 blocks the guarded command).
 
 Task `done` does not imply Git durability. A strong local release gate requires
 a concrete Git `HEAD`, clean release-relevant tracked state, no non-ignored
 untracked release-source files and a QA fingerprint valid for the current
 source identity. QA may be valid on a dirty development tree while release
-durability fails. A commit after QA changes source identity and requires a new
-QA run. Volatile control-plane paths configured in
+durability fails. A commit that changes release-source content after QA
+requires a new QA run; a commit that only adds volatile evidence, or a
+message-only amend, keeps QA valid because the verified bytes are unchanged
+(audit/redundancy-2026-09-30, report section 6.2). Volatile control-plane paths configured in
 `release_source.volatile_paths` remain exempt and historical evidence is not
 deleted or rewritten. Upstream branch relation is observational metadata; no
 specific remote, push, pull or `origin/main` equality is required. Non-Git

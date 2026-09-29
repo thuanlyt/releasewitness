@@ -2387,24 +2387,158 @@ class RelWitCliTests(unittest.TestCase):
         self.assertEqual(snapshot["dirty_state"], "clean")
         self.assertEqual(snapshot["untracked_path_count"], 0)
 
-    def test_commit_after_qa_requires_rerun_then_durability_passes(self) -> None:
+    def test_committing_only_volatile_evidence_keeps_qa_valid(self) -> None:
+        # Redundancy study s6.2: committing QA evidence must not invalidate that QA.
         config = self.configure_qa()
         self.initialize_git_baseline()
         first = relwit.run_qa(config, "durability-commit-transition-test")
-        first_snapshot = relwit.release_durability_snapshot(config, {"last_qa": first})
-        self.assertEqual(first_snapshot["status"], "pass")
+        head_before = self.git_output("rev-parse", "HEAD").strip()
 
         marker = relwit.ROOT / "work" / "evidence" / "post-qa-commit.md"
         marker.write_text("post QA bookkeeping", encoding="utf-8")
-        self.git_output("add", "work/evidence/post-qa-commit.md")
+        self.git_output("add", "-f", "work/evidence/post-qa-commit.md")
         self.git_output("commit", "-qm", "post QA bookkeeping")
+        snapshot = relwit.release_durability_snapshot(config, {"last_qa": first})
+
+        self.assertNotEqual(self.git_output("rev-parse", "HEAD").strip(), head_before)
+        self.assertEqual(snapshot["qa_source_state"], "valid")
+        self.assertEqual(snapshot["status"], "pass")
+        self.assertEqual(first["source_fingerprint"], snapshot["fingerprint"])
+
+    def test_message_only_amend_keeps_qa_valid(self) -> None:
+        config = self.configure_qa()
+        self.initialize_git_baseline()
+        result = relwit.run_qa(config, "amend-message-test")
+        self.git_output("commit", "-q", "--amend", "-m", "reworded baseline")
+        self.assertEqual(relwit.validate_qa_source(config, {"last_qa": result})["status"], "valid")
+
+    def test_qa_on_dirty_tree_stays_valid_after_committing_identical_content(self) -> None:
+        source = relwit.ROOT / "src" / "commit-after-qa.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("baseline", encoding="utf-8")
+        config = self.configure_qa()
+        self.initialize_git_baseline()
+        source.write_text("verified content", encoding="utf-8")
+        result = relwit.run_qa(config, "dirty-then-commit-test")
+        self.assertEqual(result["source_dirty_state"], "dirty")
+
+        self.git_output("commit", "-qam", "commit exactly what QA verified")
+        snapshot = relwit.release_durability_snapshot(config, {"last_qa": result})
+
+        self.assertEqual(snapshot["qa_source_state"], "valid")
+        self.assertEqual(snapshot["status"], "pass")
+
+    def test_gate_fails_without_a_passing_qa_record(self) -> None:
+        self.configure_qa()
+        code, stdout, stderr = self.invoke("gate")
+        self.assertEqual(code, 1)
+        self.assertIn("GATE FAIL: no passing QA record", stderr)
+        self.assertNotIn("GATE PASS", stdout)
+
+    def test_gate_passes_for_qa_bound_to_current_source_and_fails_after_drift(self) -> None:
+        self.configure_qa()
+        code, _, _ = self.invoke("qa")
+        self.assertEqual(code, 0)
+        code, stdout, _ = self.invoke("gate")
+        self.assertEqual(code, 0)
+        self.assertIn("GATE PASS", stdout)
+
+        source = relwit.ROOT / "src" / "drift.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("changed after QA", encoding="utf-8")
+        code, _, stderr = self.invoke("gate")
+        self.assertEqual(code, 1)
+        self.assertIn("GATE FAIL: QA_STALE", stderr)
+
+    def test_gate_require_clean_adds_git_durability(self) -> None:
+        source = relwit.ROOT / "src" / "gate-clean.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("baseline", encoding="utf-8")
+        self.configure_qa()
+        self.initialize_git_baseline()
+        source.write_text("uncommitted but verified", encoding="utf-8")
+        self.assertEqual(self.invoke("qa")[0], 0)
+
+        self.assertEqual(self.invoke("gate")[0], 0)
+        code, _, stderr = self.invoke("gate", "--require-clean")
+        self.assertEqual(code, 1)
+        self.assertIn("durability fail", stderr)
+
+        self.git_output("commit", "-qam", "commit verified content")
+        code, stdout, _ = self.invoke("gate", "--require-clean", "--json")
+        self.assertEqual(code, 0)
+        payload = json.loads(stdout)
+        self.assertEqual(payload["status"], "pass")
+        self.assertEqual(payload["durability"], "pass")
+        self.assertEqual(payload["qa_source_state"], "valid")
+
+    def test_gate_works_in_assurance_only_project_without_supervision_control_plane(self) -> None:
+        with tempfile.TemporaryDirectory() as external:
+            root = Path(external)
+            (root / "app.py").write_text("print('app')\n", encoding="utf-8")
+            config = copy.deepcopy(relwit.DEFAULT_CONFIG)
+            config["supervisor"]["qa_commands"] = [self.qa_python("print('qa-pass')")]
+            (root / "relwit.config.json").write_text(json.dumps(config), encoding="utf-8")
+            for command in (
+                ["git", "init", "-q"],
+                ["git", "config", "user.email", "relwit-tests@example.test"],
+                ["git", "config", "user.name", "RelWit Tests"],
+                ["git", "add", "-A"],
+                ["git", "commit", "-qm", "external baseline"],
+            ):
+                subprocess.run(command, cwd=root, capture_output=True, check=True)
+
+            self.assertEqual(self.invoke("--root", external, "qa")[0], 0)
+            code, stdout, stderr = self.invoke("--root", external, "gate", "--require-clean")
+
+            self.assertEqual(code, 0, stderr)
+            self.assertIn("GATE PASS", stdout)
+            self.assertFalse((root / "AGENTS.md").exists())
+            self.assertFalse((root / "work" / "registry.json").exists())
+
+    def test_external_init_keeps_raw_spool_and_telemetry_out_of_git(self) -> None:
+        with tempfile.TemporaryDirectory() as external:
+            root = Path(external)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            self.assertEqual(self.invoke("--root", external, "init")[0], 0)
+            config = json.loads((root / "relwit.config.json").read_text(encoding="utf-8"))
+            config["supervisor"]["qa_commands"] = [self.qa_python("print('token=abc')")]
+            (root / "relwit.config.json").write_text(json.dumps(config), encoding="utf-8")
+            (root / "app.py").write_text("print('app')\n", encoding="utf-8")
+            for command in (
+                ["git", "config", "user.email", "relwit-tests@example.test"],
+                ["git", "config", "user.name", "RelWit Tests"],
+                ["git", "add", "app.py", "relwit.config.json"],
+                ["git", "commit", "-qm", "external baseline"],
+            ):
+                subprocess.run(command, cwd=root, capture_output=True, check=True)
+            self.assertEqual(self.invoke("--root", external, "supervisor", "qa")[0], 0)
+
+            spool_files = [p for p in (root / "work" / ".runtime-output").iterdir() if p.name != ".gitignore"]
+            self.assertTrue(spool_files)
+            untracked = subprocess.run(
+                ["git", "ls-files", "--others", "--exclude-standard"],
+                cwd=root, capture_output=True, text=True, check=True,
+            ).stdout.splitlines()
+            self.assertFalse([path for path in untracked if path.startswith("work/.runtime-output/")])
+            self.assertFalse([path for path in untracked if path.startswith("work/telemetry/")])
+            self.assertTrue([path for path in untracked if path.startswith("work/evidence/")])
+
+    def test_commit_changing_source_after_qa_requires_rerun(self) -> None:
+        source = relwit.ROOT / "src" / "changed-after-qa.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("baseline", encoding="utf-8")
+        config = self.configure_qa()
+        self.initialize_git_baseline()
+        first = relwit.run_qa(config, "source-commit-transition-test")
+
+        source.write_text("changed after QA", encoding="utf-8")
+        self.git_output("commit", "-qam", "change source after QA")
         stale = relwit.release_durability_snapshot(config, {"last_qa": first})
-
-        self.assertEqual(stale["status"], "fail")
         self.assertEqual(stale["qa_source_state"], "QA_STALE")
-        self.assertNotEqual(first["source_fingerprint"], stale["fingerprint"])
+        self.assertEqual(stale["status"], "fail")
 
-        second = relwit.run_qa(config, "durability-commit-rerun-test")
+        second = relwit.run_qa(config, "source-commit-rerun-test")
         second_snapshot = relwit.release_durability_snapshot(config, {"last_qa": second})
         self.assertEqual(second_snapshot["status"], "pass")
         self.assertEqual(second_snapshot["qa_source_state"], "valid")

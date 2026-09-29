@@ -48,6 +48,26 @@ security issue, real external-user evidence or an explicit owner decision.
 The public repository does not ship a maintainer's runtime history. `work/`
 is generated locally by `init` in the project being assured.
 
+## 2026-09 redundancy study: what changed
+
+An independent study ran 56 real Claude Code sessions (Opus 5.5 lead, Sonnet 5.5
+workers) comparing native Claude Code, native Claude Code plus RelWit assurance,
+and full RelWit supervision. Native Claude Code matched full supervision on
+correctness, review and recovery at 1.9–4.8× lower cost. The one property RelWit
+adds is a tool-computed verdict that QA applies to the exact source being
+released, and even that is reproducible with a small Git hook. See the
+[redundancy report](audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md).
+
+As a result:
+
+- Let your coding runtime plan, route models and execute. Use RelWit only as a
+  source-bound gate: `relwit qa`, then `relwit gate` in CI or an agent hook.
+- The QA fingerprint is content-based. Committing only evidence, or rewording a
+  commit, no longer invalidates QA.
+- The supervision layer (DAG, mailboxes, runner, autopilot, telemetry) is
+  **deprecated** pending an owner decision
+  ([ADR-0011](knowledge/decisions/0011-assurance-only-boundary.md)).
+
 ## Why teams use it
 
 | Release-assurance problem | ReleaseWitness response |
@@ -81,15 +101,22 @@ Claude or Codex subagents, Git worktree managers or a project's CI system.
 - Evidence is labeled with controlled provenance and repeatable source anchors.
 - Durable runner and QA summaries are bounded and sanitized; raw diagnostics
   remain local by default.
-- QA is bound to Git HEAD, source content, dirty-state provenance and QA
-  configuration.
+- QA is bound to release-source content and QA configuration; Git HEAD and
+  dirty state are recorded as provenance.
+- `relwit gate` exits non-zero when no passing QA matches the current source, so
+  CI or a coding-agent hook can block a release.
 - Review evidence is required before a work item is considered done.
 - Release durability checks the relevant Git cleanliness, untracked files and
   current QA validity separately from task completion.
 - Configured quality gates remain explicit and deployment authority stays with
   the project owner.
 
-## Optional lightweight supervision
+## Optional lightweight supervision (deprecated)
+
+> Deprecated by [ADR-0011](knowledge/decisions/0011-assurance-only-boundary.md):
+> in the 2026-09 study this layer added cost and churn without improving
+> correctness over native Claude Code orchestration. It remains available,
+> unchanged, until the owner decides its future.
 
 When a project wants a supervisor, `$relwit` can turn a short goal into a
 bounded workflow: record assumptions, create dependency-aware work items,
@@ -167,7 +194,17 @@ The core path is useful with one agent or many:
 implement → report evidence → review → source-bound QA → Git durability gate
 ```
 
-If supervision is enabled, the optional loop adds:
+Assurance-only use needs no work items, roster or supervision skills:
+
+```bash
+relwit qa                      # run configured QA, bind the result to the current source
+relwit gate --require-clean    # exit 0 only if that QA still applies to a clean commit
+```
+
+In Claude Code, a `PreToolUse` hook guarding your release command can run
+`relwit gate --require-clean >&2 || exit 2`; exit code 2 blocks the tool call.
+
+If supervision is enabled (deprecated), the optional loop adds:
 
 ```powershell
 relwit supervisor cycle --run-qa
