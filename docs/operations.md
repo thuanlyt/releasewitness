@@ -385,7 +385,10 @@ source, test or QA/release configuration change.
 
 `relwit qa` runs the configured QA and binds the result to the current source;
 `relwit gate` exits `0` only when that passing record still matches the source,
-and `1` with a `GATE FAIL:` reason otherwise. Add `--require-clean` to also
+`1` with a `GATE FAIL:` reason otherwise, and `2` with `error:` for configuration
+or state errors. The gate trusts the local QA record, so in CI run `relwit qa`
+in the same job before `relwit gate`; `paths.runtime_spool` must lie inside
+`release_source.volatile_paths` (`validate` rejects it otherwise). Add `--require-clean` to also
 require a clean committed Git tree. Neither command needs work items, a roster
 or the supervision skills, so they can run in CI or as a coding-agent hook:
 
@@ -405,8 +408,8 @@ is `pass` only when Git `HEAD` is concrete, the release-source state is clean,
 there are no non-ignored untracked release-source files, and the current QA
 source fingerprint is valid. QA run on a dirty tree may remain valid for
 development, but it cannot make the strong release gate ready. The source
-fingerprint covers release-source content and the QA configuration, not the
-commit SHA: committing exactly the content QA verified, committing only volatile
+fingerprint covers release-source content (bytes, executable bit and symlink
+targets) and the QA configuration, not the commit SHA: committing exactly the content QA verified, committing only volatile
 evidence under `work/`, or rewording a commit message keeps QA valid, while any
 change to release-source bytes requires QA to run again.
 

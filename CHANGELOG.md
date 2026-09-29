@@ -8,16 +8,21 @@ Changes motivated by the 2026-09 redundancy study
 (`audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md`); not released.
 
 - **Changed:** the QA source fingerprint is content-based (`algorithm: content-v2`).
-  - HEAD and dirty state are recorded provenance, not identity. Committing only volatile
+  - The manifest covers file bytes, the executable bit and symlink targets.
+    HEAD and dirty state are recorded provenance, not identity. Committing only volatile
     evidence, rewording a commit, or committing exactly the content QA verified keeps QA
     valid; any change to release-source bytes still makes it `QA_STALE`.
   - QA records made by 0.2.0 read as stale once and need one rerun.
 - **Added:** `relwit gate [--require-clean] [--json]`, which exits 0 only when a passing
   QA record matches the current source. It needs no work items, roster or supervision
-  skills, so it can serve as a CI step or a coding-agent hook.
+  skills, so it can serve as a CI step or a coding-agent hook. Configuration or
+  state errors exit 2. The gate trusts the local QA record, so in CI run
+  `relwit qa` in the same job.
 - **Added:** `relwit qa` as an alias of `supervisor qa`.
 - **Fixed:** the runtime spool and telemetry directories now ignore themselves in Git, so
   raw diagnostics in an external project are no longer picked up by `git add -A`.
+  The ignore file is written only inside declared volatile paths, and `validate`
+  rejects a `runtime_spool` outside them.
 - **Deprecated:** the supervision layer (DAG, dispatch, mailboxes, runner bridge,
   supervisor cycle, autopilot, checkpoints, knowledge skills, usage telemetry), pending an
   owner decision (ADR-0011).

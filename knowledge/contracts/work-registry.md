@@ -44,7 +44,8 @@ A successful QA record must also carry the release-source fingerprint, source
 VCS/HEAD and dirty-state provenance, QA/release configuration fingerprint and
 executed checks; a missing or mismatched source fingerprint is `QA_STALE` and
 cannot satisfy a release gate. The fingerprint (`algorithm: content-v2`) hashes
-the release-source content manifest and the QA/release configuration only;
+the release-source content manifest (bytes, executable bit, symlink target;
+deleted files are absent) and the QA/release configuration only;
 HEAD and dirty state are recorded metadata, not identity. Fingerprints recorded
 by the earlier HEAD-bound algorithm never match and therefore read as
 `QA_STALE` until QA is rerun.
@@ -52,8 +53,12 @@ by the earlier HEAD-bound algorithm never match and therefore read as
 `relwit qa` (alias of `supervisor qa`) records QA for the current source and
 `relwit gate` evaluates it without any work item, roster or supervision state:
 exit 0 only when the last QA passed and its fingerprint matches the current
-source, exit 1 with a `GATE FAIL:` reason otherwise; `--require-clean` also
-requires Git release durability. The gate is intended as a CI step or a
+source, exit 1 with a `GATE FAIL:` reason otherwise; configuration or state
+errors (for example a Git repository without commits or a malformed state file)
+exit 2 with `error:`. `--require-clean` also requires Git release durability.
+The gate trusts the local QA record in `work/supervisor/state.json`, consistent
+with the trusted-local model: anyone who can write that file can forge a pass,
+so CI must run `relwit qa` in the same job before `relwit gate`. The gate is intended as a CI step or a
 coding-agent hook (for Claude Code, a `PreToolUse` hook that maps a non-zero
 exit to exit 2 blocks the guarded command).
 

@@ -330,7 +330,7 @@ def load_telemetry(config: dict[str, Any]) -> dict[str, Any]:
 def save_telemetry(config: dict[str, Any], telemetry: dict[str, Any]) -> None:
     telemetry["version"] = TELEMETRY_SCHEMA_VERSION
     telemetry["updated_at"] = now_iso()
-    ensure_local_only_dir(telemetry_store_path(config).parent)
+    ensure_local_only_dir(config, telemetry_store_path(config).parent)
     atomic_write(
         telemetry_store_path(config),
         json.dumps(telemetry, indent=2, ensure_ascii=False) + "\n",
@@ -898,6 +898,9 @@ def _qa_release_config_fingerprint(config: dict[str, Any]) -> str:
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
 
+SOURCE_FINGERPRINT_ALGORITHM = "content-v2"
+
+
 def release_source_fingerprint(config: dict[str, Any]) -> dict[str, Any]:
     release_version, volatile_paths = release_source_settings(config)
     try:
@@ -964,8 +967,17 @@ def release_source_fingerprint(config: dict[str, Any]) -> dict[str, Any]:
     manifest: list[dict[str, Any]] = []
     for relative in source_paths:
         path = ROOT / Path(relative)
+        if path.is_symlink():
+            # A link's identity is its target, not the bytes it points at.
+            manifest.append({"path": relative, "kind": "symlink", "target": os.readlink(path)})
+            continue
         digest, byte_count, file_state = _sha256_file(path)
-        manifest.append({"path": relative, "sha256": digest, "bytes": byte_count, "state": file_state})
+        if file_state == "missing":
+            # A deleted file is absent from the source, whether or not the
+            # deletion has been staged or committed yet.
+            continue
+        kind = "exec" if path.stat().st_mode & 0o111 else "file"
+        manifest.append({"path": relative, "sha256": digest, "bytes": byte_count, "kind": kind})
     dirty_state = "dirty" if dirty_paths else "clean"
     if not git_available:
         dirty_state = "unknown"
@@ -976,7 +988,7 @@ def release_source_fingerprint(config: dict[str, Any]) -> dict[str, Any]:
     # not invalidate QA for identical source. Durability still requires a clean
     # committed tree separately.
     payload = {
-        "algorithm": "content-v2",
+        "algorithm": SOURCE_FINGERPRINT_ALGORITHM,
         "version": release_version,
         "vcs": "git" if git_available else "filesystem",
         "manifest": manifest,
@@ -985,6 +997,7 @@ def release_source_fingerprint(config: dict[str, Any]) -> dict[str, Any]:
     serialized = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
     return {
         "fingerprint": hashlib.sha256(serialized.encode("utf-8")).hexdigest(),
+        "algorithm": SOURCE_FINGERPRINT_ALGORITHM,
         "version": release_version,
         "vcs": payload["vcs"],
         "head_sha": head_sha,
@@ -1102,10 +1115,12 @@ def git_upstream_snapshot() -> dict[str, Any]:
     }
 
 
-def release_durability_snapshot(config: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+def release_durability_snapshot(
+    config: dict[str, Any], state: dict[str, Any], source: dict[str, Any] | None = None
+) -> dict[str, Any]:
     """Evaluate strong local release durability independently from task completion."""
 
-    source = release_source_fingerprint(config)
+    source = source if source is not None else release_source_fingerprint(config)
     last_qa = state.get("last_qa") if isinstance(state, dict) else None
     last_qa = last_qa if isinstance(last_qa, dict) else {}
     qa_source = validate_qa_source(config, state, source)
@@ -1155,14 +1170,27 @@ def release_durability_snapshot(config: dict[str, Any], state: dict[str, Any]) -
 LOCAL_ONLY_IGNORE = "# Local-only RelWit runtime data: never commit.\n*\n"
 
 
-def ensure_local_only_dir(path: Path) -> None:
-    """Create a local-only directory that Git ignores wherever it is configured.
+def ensure_local_only_dir(config: dict[str, Any], path: Path) -> None:
+    """Create a local-only directory that Git ignores.
 
     `init` in an external project writes no root ignore rule, so raw diagnostics
     would otherwise be picked up by `git add -A` (audit/redundancy-2026-09-30, 6.6).
+    The ignore file is only written inside a declared volatile path and never at
+    the project root, so a misconfigured path cannot hide release source.
     """
 
     path.mkdir(parents=True, exist_ok=True)
+    try:
+        relative = path.resolve().relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return
+    settings = config.get("release_source")
+    declared = settings.get("volatile_paths") if isinstance(settings, dict) else None
+    if declared is None:
+        declared = DEFAULT_CONFIG["release_source"]["volatile_paths"]
+    declared = [normalize_scope(str(value)) for value in declared] if isinstance(declared, list) else []
+    if relative in {"", "."} or not release_path_is_volatile(relative, declared):
+        return
     ignore = path / ".gitignore"
     if not ignore.exists():
         atomic_write(ignore, LOCAL_ONLY_IGNORE)
@@ -1187,7 +1215,7 @@ def ensure_layout() -> None:
     for key in ("agent_root", "reports_inbox", "reports_archive", "outbox", "checkpoints", "evidence"):
         path_for(config, key).mkdir(parents=True, exist_ok=True)
     for key in ("runtime_spool", "telemetry"):
-        ensure_local_only_dir(path_for(config, key))
+        ensure_local_only_dir(config, path_for(config, key))
     for key in ("completed_tasks", "reports_index", "supervisor_report", "supervisor_cycle", "supervisor_state"):
         path_for(config, key).parent.mkdir(parents=True, exist_ok=True)
     if not REGISTRY.exists():
@@ -2717,7 +2745,7 @@ def write_runtime_spool(
                 f"- disposition: `{safe_markdown_code(record.get('disposition', 'needs_input'))}`",
                 "",
             ]
-    ensure_local_only_dir(spool_path.parent)
+    ensure_local_only_dir(config, spool_path.parent)
     atomic_write(spool_path, "\n".join(lines))
     return spool_path
 
@@ -3461,6 +3489,7 @@ def run_qa(config: dict[str, Any], cycle_id: str) -> dict[str, Any]:
         "source": "configured supervisor.qa_commands",
         "recorded_at": now_iso(),
         "source_fingerprint": source_state["fingerprint"],
+        "source_fingerprint_algorithm": source_state["algorithm"],
         "source_version": source_state["version"],
         "source_vcs": source_state["vcs"],
         "source_head_sha": source_state["head_sha"],
@@ -3491,6 +3520,8 @@ def validate_qa_source(
     except RelWitError as exc:
         return {"status": "invalid", "reason": str(exc)}
     if current["fingerprint"] != recorded:
+        if last_qa.get("source_fingerprint_algorithm") != current.get("algorithm", SOURCE_FINGERPRINT_ALGORITHM):
+            return {"status": "QA_STALE", "reason": "QA was recorded with an earlier source-fingerprint algorithm; rerun QA"}
         return {"status": "QA_STALE", "reason": "current release source state differs from QA source state"}
     return {"status": "valid"}
 
@@ -3766,7 +3797,7 @@ def evaluate_gate(config: dict[str, Any], state: dict[str, Any], require_clean: 
     source = release_source_fingerprint(config)
     qa_source = validate_qa_source(config, {"last_qa": last_qa}, source)
     reasons: list[str] = []
-    qa_status = last_qa.get("status") or "missing"
+    qa_status = gate_text(last_qa.get("status") or "missing")
     if qa_status != "pass":
         reasons.append(f"no passing QA record (last QA status: {qa_status}); run `relwit qa`")
     elif qa_source["status"] != "valid":
@@ -3781,7 +3812,7 @@ def evaluate_gate(config: dict[str, Any], state: dict[str, Any], require_clean: 
         "source_dirty_state": source["dirty_state"],
     }
     if require_clean:
-        durability = release_durability_snapshot(config, {"last_qa": last_qa})
+        durability = release_durability_snapshot(config, {"last_qa": last_qa}, source)
         result["durability"] = durability["status"]
         # A QA problem is already reported above; only add distinct durability failures.
         if durability["status"] != "pass" and durability["reason"] != f"QA source state is {qa_source['status']}":
@@ -3789,6 +3820,12 @@ def evaluate_gate(config: dict[str, Any], state: dict[str, Any], require_clean: 
     result["reasons"] = reasons
     result["status"] = "pass" if not reasons else "fail"
     return result
+
+
+def gate_text(value: Any) -> str:
+    """Render untrusted state values on one line so they cannot forge gate output."""
+
+    return re.sub(r"[\x00-\x1f\x7f]", "?", str(value))[:200]
 
 
 def cmd_gate(args: argparse.Namespace) -> int:
@@ -3799,12 +3836,12 @@ def cmd_gate(args: argparse.Namespace) -> int:
     else:
         for key in ("qa_status", "qa_source_state", "source_head_sha", "source_dirty_state", "durability"):
             if key in result:
-                print(f"{key}={result[key]}")
+                print(f"{key}={gate_text(result[key])}")
         if result["status"] == "pass":
             print("GATE PASS")
         else:
             for reason in result["reasons"]:
-                print(f"GATE FAIL: {reason}", file=sys.stderr)
+                print(f"GATE FAIL: {gate_text(reason)}", file=sys.stderr)
     return 0 if result["status"] == "pass" else 1
 
 
@@ -4115,6 +4152,15 @@ def validate_config(config: dict[str, Any], errors: list[str]) -> None:
                 errors.append(str(exc))
         if any(normalize_scope(value) == "." for value in volatile_paths):
             errors.append("config.release_source.volatile_paths must not contain the project root")
+        paths_config = config.get("paths") if isinstance(config.get("paths"), dict) else {}
+        spool_value = paths_config.get("runtime_spool", DEFAULT_CONFIG["paths"]["runtime_spool"])
+        if isinstance(spool_value, str):
+            spool_relative = normalize_scope(spool_value)
+            declared = [normalize_scope(value) for value in volatile_paths]
+            # Raw diagnostics outside declared volatile paths would either stale every QA
+            # (they change the source manifest) or, if ignored, hide real source.
+            if spool_relative == "." or not release_path_is_volatile(spool_relative, declared):
+                errors.append("config.paths.runtime_spool must be inside config.release_source.volatile_paths")
 
     supervisor = config.get("supervisor")
     if not isinstance(supervisor, dict):

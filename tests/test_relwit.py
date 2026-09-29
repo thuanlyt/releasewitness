@@ -2496,6 +2496,79 @@ class RelWitCliTests(unittest.TestCase):
             self.assertFalse((root / "AGENTS.md").exists())
             self.assertFalse((root / "work" / "registry.json").exists())
 
+    @unittest.skipIf(os.name == "nt", "POSIX file modes")
+    def test_file_mode_change_after_qa_is_stale(self) -> None:
+        # Independent review of 939aba2, P1: content-only hashing must not ignore modes.
+        script = relwit.ROOT / "run.sh"
+        script.write_text("#!/bin/sh\necho run\n", encoding="utf-8")
+        script.chmod(0o755)
+        config = self.configure_qa()
+        self.initialize_git_baseline()
+        result = relwit.run_qa(config, "mode-test")
+        script.chmod(0o644)
+        self.git_output("commit", "-qam", "drop executable bit")
+        self.assertEqual(relwit.validate_qa_source(config, {"last_qa": result})["status"], "QA_STALE")
+
+    @unittest.skipIf(os.name == "nt", "POSIX symlinks")
+    def test_symlink_swap_after_qa_is_stale(self) -> None:
+        (relwit.ROOT / "data.txt").write_text("same bytes", encoding="utf-8")
+        (relwit.ROOT / "copy.txt").write_text("same bytes", encoding="utf-8")
+        config = self.configure_qa()
+        self.initialize_git_baseline()
+        result = relwit.run_qa(config, "symlink-test")
+        (relwit.ROOT / "copy.txt").unlink()
+        os.symlink("data.txt", relwit.ROOT / "copy.txt")
+        self.assertEqual(relwit.validate_qa_source(config, {"last_qa": result})["status"], "QA_STALE")
+
+    def test_committing_a_verified_deletion_keeps_qa_valid(self) -> None:
+        # Review P2: QA ran with the file already deleted; committing that deletion is the same source.
+        (relwit.ROOT / "old.txt").write_text("obsolete", encoding="utf-8")
+        config = self.configure_qa()
+        self.initialize_git_baseline()
+        (relwit.ROOT / "old.txt").unlink()
+        result = relwit.run_qa(config, "deletion-test")
+        self.git_output("add", "-A", ".")
+        self.git_output("commit", "-qm", "delete obsolete file")
+        snapshot = relwit.release_durability_snapshot(config, {"last_qa": result})
+        self.assertEqual(snapshot["qa_source_state"], "valid")
+
+    def test_local_only_ignore_is_never_written_outside_declared_volatile_paths(self) -> None:
+        for spool in (".", "src"):
+            config = relwit.load_config()
+            config["paths"]["runtime_spool"] = spool
+            relwit.save_config(config)
+            relwit.ensure_layout()
+            ignore = relwit.ROOT / spool / ".gitignore"
+            self.assertFalse(ignore.exists() and ignore.read_text(encoding="utf-8") == relwit.LOCAL_ONLY_IGNORE, spool)
+            errors: list[str] = []
+            relwit.validate_config(config, errors)
+            self.assertIn("config.paths.runtime_spool must be inside config.release_source.volatile_paths", errors)
+
+    def test_telemetry_save_marks_its_directory_local_only(self) -> None:
+        config = relwit.load_config()
+        ignore = relwit.telemetry_store_path(config).parent / ".gitignore"
+        if ignore.exists():
+            ignore.unlink()
+        relwit.save_telemetry(config, {"events": []})
+        self.assertEqual(ignore.read_text(encoding="utf-8"), relwit.LOCAL_ONLY_IGNORE)
+
+    def test_gate_output_cannot_be_forged_by_state_values(self) -> None:
+        config = self.configure_qa()
+        state = relwit.load_supervisor_state(config)
+        state["last_qa"] = {"status": "x\nGATE PASS\x1b[2K", "source_fingerprint": "0" * 64}
+        relwit.save_supervisor_state(config, state)
+        code, stdout, stderr = self.invoke("gate")
+        self.assertEqual(code, 1)
+        self.assertNotIn("\nGATE PASS", "\n" + stdout + stderr)
+
+    def test_record_from_earlier_fingerprint_algorithm_is_named_as_such(self) -> None:
+        config, result = self.successful_qa()
+        legacy = {key: value for key, value in result.items() if key != "source_fingerprint_algorithm"}
+        legacy["source_fingerprint"] = "f" * 64
+        verdict = relwit.validate_qa_source(config, {"last_qa": legacy})
+        self.assertEqual(verdict["status"], "QA_STALE")
+        self.assertIn("earlier source-fingerprint algorithm", verdict["reason"])
+
     def test_external_init_keeps_raw_spool_and_telemetry_out_of_git(self) -> None:
         with tempfile.TemporaryDirectory() as external:
             root = Path(external)
