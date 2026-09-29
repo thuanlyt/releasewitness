@@ -1,0 +1,10 @@
+## after attempt A
+6230952 Add multi-currency support (USD, EUR, JPY)
+25b4903 baseline (clean, n1)
+ M work/agents/implementer/COMPLETED.md
+ M work/agents/implementer/REPORT.md
+ M work/completed/COMPLETED.md
+ M work/registry.json
+ M work/reports/REPORTS.md
+RW-0001	reported	L2	implementer	Add multi-currency support	deps:-
+{"label": "t6-n1@A", "head": "6230952", "dirty_nonwork_paths": 5, "visible": "OK", "hidden_pass": 8, "hidden_total": 8, "hidden_failed": []}

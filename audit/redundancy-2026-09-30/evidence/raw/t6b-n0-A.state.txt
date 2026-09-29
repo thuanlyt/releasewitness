@@ -1,0 +1,12 @@
+## after attempt A
+f6c0e45 baseline (clean, n0)
+ M SPEC.md
+ M ledgerlite/cli.py
+ M ledgerlite/export.py
+ M ledgerlite/invoice.py
+ M ledgerlite/money.py
+ M tests/test_cli.py
+ M tests/test_export.py
+ M tests/test_invoice.py
+ M tests/test_money.py
+{"label": "t6b-n0@A", "head": "f6c0e45", "dirty_nonwork_paths": 9, "visible": "OK", "hidden_pass": 8, "hidden_total": 8, "hidden_failed": []}

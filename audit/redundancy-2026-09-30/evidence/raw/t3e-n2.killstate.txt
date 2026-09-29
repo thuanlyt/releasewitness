@@ -1,0 +1,37 @@
+## kill-time ground truth
+KILLED after 85s (progress=3)
+## git log
+b0eae6a baseline (clean, n2)
+## worktrees
+/tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3e-n2  b0eae6a [main]
+### /tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3e-n2 status
+ M SPEC.md
+ M knowledge/project-brief.md
+ M ledgerlite/money.py
+ M relwit.config.json
+ M tests/test_money.py
+ M work/SUPERVISOR_REPORT.md
+ M work/completed/COMPLETED.md
+ M work/registry.json
+ M work/reports/REPORTS.md
+ M work/supervisor/LATEST_CYCLE.md
+ M work/supervisor/state.json
+### /tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3e-n2 diffstat vs baseline
+ SPEC.md                         |  25 +++++++
+ knowledge/project-brief.md      |   6 +-
+ ledgerlite/money.py             |  40 +++++++++--
+ relwit.config.json              |  80 ++++++++++++++++++++-
+ tests/test_money.py             |  57 ++++++++++++++-
+ work/SUPERVISOR_REPORT.md       |  87 ++++++++++++++++++++++-
+ work/completed/COMPLETED.md     |   1 +
+ work/registry.json              | 152 +++++++++++++++++++++++++++++++++++++++-
+ work/reports/REPORTS.md         |   1 +
+ work/supervisor/LATEST_CYCLE.md |  87 ++++++++++++++++++++++-
+ work/supervisor/state.json      |  10 ++-
+ 11 files changed, 528 insertions(+), 18 deletions(-)
+## relwit task list
+RW-0001	reported	L2	implementer-1	Currencies spec + money helpers	deps:-
+RW-0002	planned	L2	-	Invoice, CSV and CLI currency support	deps:RW-0001
+RW-0003	planned	L2	-	Independent review of multi-currency change	deps:RW-0002
+## hidden score of main working tree at kill
+{"label": "t3e-n2@kill", "head": "b0eae6a", "dirty_nonwork_paths": 11, "visible": "OK", "hidden_pass": 4, "hidden_total": 8, "hidden_failed": ["test_C3_unsupported", "test_C4_invoice_jpy", "test_C6_csv_currency_column", "test_C7_cli_currency"]}

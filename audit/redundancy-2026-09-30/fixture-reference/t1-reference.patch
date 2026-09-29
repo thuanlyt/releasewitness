@@ -1,0 +1,194 @@
+diff -ruN '--exclude=__pycache__' a/ledgerlite/cli.py ref1/ledgerlite/cli.py
+--- a/ledgerlite/cli.py	2026-09-29 18:31:00.791115607 +0000
++++ b/ledgerlite/cli.py	2026-09-29 18:32:39.375271062 +0000
+@@ -6,25 +6,38 @@
+ 
+ from .export import to_csv
+ from .invoice import Invoice
+-from .money import format_money
++from .money import check_currency, format_money
+ 
+ 
+ def main(argv=None):
+     parser = argparse.ArgumentParser(prog="ledgerlite")
+     parser.add_argument("path", help="invoice JSON file")
+     parser.add_argument("--csv", action="store_true", help="print CSV instead of a summary")
++    parser.add_argument("--currency")
+     args = parser.parse_args(argv)
+     try:
+         with open(args.path, encoding="utf-8") as handle:
+-            invoice = Invoice.from_dict(json.load(handle))
++            data = json.load(handle)
++    except (OSError, ValueError) as exc:
++        print(f"error: {exc}", file=sys.stderr)
++        return 1
++    if args.currency:
++        try:
++            check_currency(args.currency)
++        except ValueError as exc:
++            print(f"error: {exc}", file=sys.stderr)
++            return 2
++        data["currency"] = args.currency
++    try:
++        invoice = Invoice.from_dict(data)
+     except (OSError, ValueError, KeyError) as exc:
+         print(f"error: {exc}", file=sys.stderr)
+         return 1
+     if args.csv:
+         sys.stdout.write(to_csv(invoice))
+         return 0
+-    print(f"Subtotal: {format_money(invoice.subtotal())}")
+-    print(f"Discount: {format_money(invoice.discount_total())}")
+-    print(f"Tax: {format_money(invoice.tax())}")
+-    print(f"Total: {format_money(invoice.total())}")
++    print(f"Subtotal: {format_money(invoice.subtotal(), invoice.currency)}")
++    print(f"Discount: {format_money(invoice.discount_total(), invoice.currency)}")
++    print(f"Tax: {format_money(invoice.tax(), invoice.currency)}")
++    print(f"Total: {format_money(invoice.total(), invoice.currency)}")
+     return 0
+diff -ruN '--exclude=__pycache__' a/ledgerlite/export.py ref1/ledgerlite/export.py
+--- a/ledgerlite/export.py	2026-09-29 18:30:57.339115401 +0000
++++ b/ledgerlite/export.py	2026-09-29 18:32:39.375196228 +0000
+@@ -3,7 +3,9 @@
+ import csv
+ import io
+ 
+-HEADER = ["description", "quantity", "unit_price", "discount_pct", "net"]
++from .money import plain
++
++HEADER = ["description", "quantity", "unit_price", "discount_pct", "net", "currency"]
+ 
+ 
+ def to_csv(invoice):
+@@ -15,10 +17,11 @@
+             [
+                 line.description,
+                 line.quantity,
+-                f"{line.unit_price:.2f}",
++                plain(line.unit_price, invoice.currency),
+                 f"{line.discount_pct}",
+-                f"{line.net():.2f}",
++                plain(line.net(invoice.currency), invoice.currency),
++                invoice.currency,
+             ]
+         )
+-    writer.writerow(["TOTAL", "", "", "", f"{invoice.total():.2f}"])
++    writer.writerow(["TOTAL", "", "", "", plain(invoice.total(), invoice.currency), invoice.currency])
+     return buffer.getvalue()
+diff -ruN '--exclude=__pycache__' a/ledgerlite/invoice.py ref1/ledgerlite/invoice.py
+--- a/ledgerlite/invoice.py	2026-09-29 18:30:54.943115259 +0000
++++ b/ledgerlite/invoice.py	2026-09-29 18:32:39.375118803 +0000
+@@ -2,7 +2,7 @@
+ 
+ from decimal import Decimal
+ 
+-from .money import parse_amount, round_money
++from .money import check_currency, parse_amount, round_money
+ 
+ 
+ class LineItem:
+@@ -20,34 +20,36 @@
+         self.unit_price = price
+         self.discount_pct = discount
+ 
+-    def gross(self):
+-        return round_money(self.unit_price * self.quantity)
++    def gross(self, currency="USD"):
++        return round_money(self.unit_price * self.quantity, currency)
+ 
+-    def discount(self):
+-        return round_money(self.gross() * self.discount_pct / Decimal(100))
++    def discount(self, currency="USD"):
++        return round_money(self.gross(currency) * self.discount_pct / Decimal(100), currency)
+ 
+-    def net(self):
+-        return self.gross() - self.discount()
++    def net(self, currency="USD"):
++        return self.gross(currency) - self.discount(currency)
+ 
+ 
+ class Invoice:
+-    def __init__(self, lines, tax_rate="0"):
++    def __init__(self, lines, tax_rate="0", currency="USD"):
++        check_currency(currency)
++        self.currency = currency
+         self.lines = list(lines)
+         self.tax_rate = parse_amount(tax_rate)
+         if self.tax_rate < 0 or self.tax_rate > 1:
+             raise ValueError("tax_rate must be a fraction between 0 and 1")
+ 
+     def subtotal(self):
+-        return sum((line.gross() for line in self.lines), Decimal("0.00"))
++        return sum((line.gross(self.currency) for line in self.lines), Decimal("0.00"))
+ 
+     def discount_total(self):
+-        return sum((line.discount() for line in self.lines), Decimal("0.00"))
++        return sum((line.discount(self.currency) for line in self.lines), Decimal("0.00"))
+ 
+     def taxable(self):
+         return self.subtotal() - self.discount_total()
+ 
+     def tax(self):
+-        return round_money(self.taxable() * self.tax_rate)
++        return round_money(self.taxable() * self.tax_rate, self.currency)
+ 
+     def total(self):
+         return self.taxable() + self.tax()
+@@ -63,4 +65,4 @@
+             )
+             for entry in data.get("lines", [])
+         ]
+-        return cls(lines, data.get("tax_rate", "0"))
++        return cls(lines, data.get("tax_rate", "0"), data.get("currency", "USD"))
+diff -ruN '--exclude=__pycache__' a/ledgerlite/money.py ref1/ledgerlite/money.py
+--- a/ledgerlite/money.py	2026-09-29 18:30:49.303114924 +0000
++++ b/ledgerlite/money.py	2026-09-29 18:32:39.374974231 +0000
+@@ -2,15 +2,17 @@
+ 
+ from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
+ 
++CURRENCIES = {"USD": ("$", 2), "EUR": ("\u20ac", 2), "JPY": ("\u00a5", 0)}
+ CENT = Decimal("0.01")
+-SYMBOLS = {"USD": "$"}
+ 
+ 
+-def parse_amount(value):
+-    """Parse a user-supplied amount into a Decimal.
++def check_currency(currency):
++    if currency not in CURRENCIES:
++        raise ValueError(f"unsupported currency: {currency}")
++    return CURRENCIES[currency]
++
+ 
+-    Accepts int, Decimal or strings such as "12.50" or "1,234.50".
+-    """
++def parse_amount(value):
+     if isinstance(value, bool):
+         raise ValueError(f"invalid amount: {value!r}")
+     if isinstance(value, (int, Decimal)):
+@@ -24,14 +26,18 @@
+         raise ValueError(f"invalid amount: {value!r}") from exc
+ 
+ 
+-def round_money(value):
+-    """Round to cents using half-up rounding."""
+-    return Decimal(value).quantize(CENT, rounding=ROUND_HALF_UP)
++def round_money(value, currency="USD"):
++    _, places = check_currency(currency)
++    return Decimal(value).quantize(Decimal(1).scaleb(-places), rounding=ROUND_HALF_UP)
++
++
++def plain(value, currency="USD"):
++    _, places = check_currency(currency)
++    return f"{round_money(value, currency):.{places}f}"
+ 
+ 
+ def format_money(value, currency="USD"):
+-    """Format an amount such as -1234.5 as "-$1,234.50"."""
+-    amount = round_money(value)
++    symbol, places = check_currency(currency)
++    amount = round_money(value, currency)
+     sign = "-" if amount < 0 else ""
+-    symbol = SYMBOLS.get(currency, f"{currency} ")
+-    return f"{sign}{symbol}{abs(amount):,.2f}"
++    return f"{sign}{symbol}{abs(amount):,.{places}f}"

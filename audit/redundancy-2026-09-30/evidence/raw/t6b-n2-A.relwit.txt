@@ -1,0 +1,10 @@
+registered agent sonnet-worker at work/agents/sonnet-worker
+registered agent reviewer at work/agents/reviewer
+RW-0001
+RW-0001 -> sonnet-worker (work/agents/sonnet-worker/inbox/RW-0001.md)
+work/reports/inbox/RW-0001-20260929T184644Z-1ebeec.md
+RW-0001 runner_status=reported result=failed evidence=work/evidence/runner-RW-0001-20260929T184644Z-1b84eb.md
+cycle=cycle-20260929T184644Z-c6bd96
+report=work/SUPERVISOR_REPORT.md
+checkpoint=work/checkpoints/20260929T184644Z-cycle-20260929t184644z-c6bd96.md
+next=Read the failed worker report for RW-0001 and create a scoped debug task with a new hypothesis.

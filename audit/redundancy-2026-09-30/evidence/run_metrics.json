@@ -1,0 +1,2706 @@
+{
+ "t1-n0": {
+  "workspace": "t1-n0",
+  "sessions": [
+   {
+    "session": "t1-n0",
+    "subtype": "success",
+    "wall_s": 407,
+    "cost_usd_est": 1.1014324999999998,
+    "turns": 15,
+    "top_level_tool_calls": 23,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 19943,
+     "claude-sonnet-5-5": 6563
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t1-n0@0d4ba3484869d5c21d5ddf2e55004c5a36479b79",
+    "head": "0d4ba34",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n0)"
+   },
+   {
+    "label": "t1-n0@c5ae95f06fcfe2691668096ef4af7be68d4ef9d9",
+    "head": "c5ae95f",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t1-n0@35b1ca6d680d16d8fff3aac959e27fed85fe2257",
+    "head": "35b1ca6",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Round non-USD CSV unit prices half-up; doc cleanups from review"
+   },
+   {
+    "label": "t1-n0@worktree",
+    "head": "35b1ca6",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "35b1ca6 Round non-USD CSV unit prices half-up; doc cleanups from review | Claude Opus 5.5 <noreply@anthropic.com>",
+   "c5ae95f Add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "0d4ba34 baseline (clean, n0) | "
+  ]
+ },
+ "t1-n1": {
+  "workspace": "t1-n1",
+  "sessions": [
+   {
+    "session": "t1-n1",
+    "subtype": "success",
+    "wall_s": 196,
+    "cost_usd_est": 0.9538989999999998,
+    "turns": 12,
+    "top_level_tool_calls": 21,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 14962,
+     "claude-sonnet-5-5": 9852
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t1-n1@ab3a76d18e221e2020b01f31dba6f4caa7867b49",
+    "head": "ab3a76d",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n1)"
+   },
+   {
+    "label": "t1-n1@16fd9412efbb91d66945bf86ed2a6c2b3b6f1d65",
+    "head": "16fd941",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t1-n1@4b54a36af5a54239d69dbd8742a8f05b40d20a85",
+    "head": "4b54a36",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Address review nits: drop unused CENT, clarify SPEC S3/S10"
+   },
+   {
+    "label": "t1-n1@worktree",
+    "head": "4b54a36",
+    "dirty_nonwork_paths": 8,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 18,
+   "bytes": 17356
+  },
+  "commits": [
+   "4b54a36 Address review nits: drop unused CENT, clarify SPEC S3/S10 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "16fd941 Add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ab3a76d baseline (clean, n1) | "
+  ]
+ },
+ "t1-n2": {
+  "workspace": "t1-n2",
+  "sessions": [
+   {
+    "session": "t1-n2",
+    "subtype": "success",
+    "wall_s": 1013,
+    "cost_usd_est": 3.8238929999999995,
+    "turns": 44,
+    "top_level_tool_calls": 105,
+    "subagents_spawned": 11,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 64590,
+     "claude-sonnet-5-5": 19460
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t1-n2@1ac8151bfbbff993617f00d5da877c8498cfdfe2",
+    "head": "1ac8151",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n2)"
+   },
+   {
+    "label": "t1-n2@4b2d3f533a55f7c5cb73ec55df2627cc042b1027",
+    "head": "4b2d3f5",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 4,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "Add currency table, currency-aware round_money/format_money and SPEC Currencies section (R"
+   },
+   {
+    "label": "t1-n2@1c80180ce483ffa7386cad9912dc6d6e33d4b2ae",
+    "head": "1c80180",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add invoice currency, CSV currency column and CLI --currency; SPEC/test follow-ups (RW-000"
+   },
+   {
+    "label": "t1-n2@a14817d8fdddbb4324e8d625344d055adcd0a68a",
+    "head": "a14817d",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Restore baseline CSV unit_price formatting, add tie tests, reject non-object invoice JSON "
+   },
+   {
+    "label": "t1-n2@93968172124d91f0dd3aa3932194648ed648be8f",
+    "head": "9396817",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Document currency usage, CSV column change and rollback in README (RW-0006)"
+   },
+   {
+    "label": "t1-n2@c9e6da7773a2806b134f7adeffe8055c578e90ad",
+    "head": "c9e6da7",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "README: scope rollback to product paths, note case-sensitive currency codes (RW-0007)"
+   },
+   {
+    "label": "t1-n2@acdac8c648a306025afbea65dfc608401a554e1d",
+    "head": "acdac8c",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Record multi-currency knowledge card, checkpoint and task closure"
+   },
+   {
+    "label": "t1-n2@worktree",
+    "head": "acdac8c",
+    "dirty_nonwork_paths": 3,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 71,
+   "bytes": 154760
+  },
+  "commits": [
+   "acdac8c Record multi-currency knowledge card, checkpoint and task closure | Claude Opus 5.5 <noreply@anthropic.com>",
+   "c9e6da7 README: scope rollback to product paths, note case-sensitive currency codes (RW-0007) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "9396817 Document currency usage, CSV column change and rollback in README (RW-0006) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "a14817d Restore baseline CSV unit_price formatting, add tie tests, reject non-object invoice JSON (RW-0005) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "1c80180 Add invoice currency, CSV currency column and CLI --currency; SPEC/test follow-ups (RW-0002, RW-0004) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "4b2d3f5 Add currency table, currency-aware round_money/format_money and SPEC Currencies section (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "1ac8151 baseline (clean, n2) | "
+  ]
+ },
+ "t2-n0": {
+  "workspace": "t2-n0",
+  "sessions": [
+   {
+    "session": "t2-n0",
+    "subtype": "success",
+    "wall_s": 269,
+    "cost_usd_est": 1.1422349000000003,
+    "turns": 1,
+    "top_level_tool_calls": 29,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 19132,
+     "claude-sonnet-5-5": 7196
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t2-n0@99801bddea4f8c18c0f418eb1d5e5c826afeae99",
+    "head": "99801bd",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 11,
+    "hidden_failed": [
+     "test_D1_half_up_rounding",
+     "test_D2_tax_on_discounted_amount",
+     "test_D3_csv_quoting",
+     "test_D4_negative_quantity_rejected",
+     "test_D5_discount_over_100_rejected",
+     "test_D6_negative_format",
+     "test_D7_tax_rate_over_1_rejected",
+     "test_R2_totals",
+     "test_R4_cli"
+    ],
+    "subject": "baseline (seeded, n0)"
+   },
+   {
+    "label": "t2-n0@4cc2619b305a1853376964d9a208df4c2dec4b18",
+    "head": "4cc2619",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Fix SPEC.md conformance violations in money, invoice, CSV export and CLI"
+   },
+   {
+    "label": "t2-n0@653bb8d4f8843e719db1a1c24527048590517f49",
+    "head": "653bb8d",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Address review: CLI errors for huge amounts/deep JSON, CSV number formatting"
+   },
+   {
+    "label": "t2-n0@worktree",
+    "head": "653bb8d",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "653bb8d Address review: CLI errors for huge amounts/deep JSON, CSV number formatting | Claude Opus 5.5 <noreply@anthropic.com>",
+   "4cc2619 Fix SPEC.md conformance violations in money, invoice, CSV export and CLI | Claude Opus 5.5 <noreply@anthropic.com>",
+   "99801bd baseline (seeded, n0) | "
+  ]
+ },
+ "t2-n1": {
+  "workspace": "t2-n1",
+  "sessions": [
+   {
+    "session": "t2-n1",
+    "subtype": "success",
+    "wall_s": 235,
+    "cost_usd_est": 1.1504178000000003,
+    "turns": 2,
+    "top_level_tool_calls": 29,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 19713,
+     "claude-sonnet-5-5": 7382
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t2-n1@e084b018796c9ab36a0d8c9ea688a0748b614cc1",
+    "head": "e084b01",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 11,
+    "hidden_failed": [
+     "test_D1_half_up_rounding",
+     "test_D2_tax_on_discounted_amount",
+     "test_D3_csv_quoting",
+     "test_D4_negative_quantity_rejected",
+     "test_D5_discount_over_100_rejected",
+     "test_D6_negative_format",
+     "test_D7_tax_rate_over_1_rejected",
+     "test_R2_totals",
+     "test_R4_cli"
+    ],
+    "subject": "baseline (seeded, n1)"
+   },
+   {
+    "label": "t2-n1@875ad289ed47f92b1a087d235c5186abed537717",
+    "head": "875ad28",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Fix SPEC.md violations in ledgerlite and add regression tests"
+   },
+   {
+    "label": "t2-n1@024b1e4b1b2e672e0a0fc12283874f992cf4f9b4",
+    "head": "024b1e4",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Address review findings: CLI errors, CSV half-up rounding, negative zero"
+   },
+   {
+    "label": "t2-n1@3cd396cc95e50943d75fe24e49827bc6c485bc44",
+    "head": "3cd396c",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Record RelWit review evidence for RW-0001"
+   },
+   {
+    "label": "t2-n1@worktree",
+    "head": "3cd396c",
+    "dirty_nonwork_paths": 3,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 18,
+   "bytes": 16645
+  },
+  "commits": [
+   "3cd396c Record RelWit review evidence for RW-0001 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "024b1e4 Address review findings: CLI errors, CSV half-up rounding, negative zero | Claude Opus 5.5 <noreply@anthropic.com>",
+   "875ad28 Fix SPEC.md violations in ledgerlite and add regression tests | Claude Opus 5.5 <noreply@anthropic.com>",
+   "e084b01 baseline (seeded, n1) | "
+  ]
+ },
+ "t2-n2": {
+  "workspace": "t2-n2",
+  "sessions": [
+   {
+    "session": "t2-n2",
+    "subtype": "success",
+    "wall_s": 1477,
+    "cost_usd_est": 5.4429118999999995,
+    "turns": 57,
+    "top_level_tool_calls": 130,
+    "subagents_spawned": 10,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 89244,
+     "claude-sonnet-5-5": 43480
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t2-n2@688096bec71a78ed821fb9254f58663aafdc3a65",
+    "head": "688096b",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 11,
+    "hidden_failed": [
+     "test_D1_half_up_rounding",
+     "test_D2_tax_on_discounted_amount",
+     "test_D3_csv_quoting",
+     "test_D4_negative_quantity_rejected",
+     "test_D5_discount_over_100_rejected",
+     "test_D6_negative_format",
+     "test_D7_tax_rate_over_1_rejected",
+     "test_R2_totals",
+     "test_R4_cli"
+    ],
+    "subject": "baseline (seeded, n2)"
+   },
+   {
+    "label": "t2-n2@ef3bfa828b4bc986a3692efe5d5371d11e34f7dc",
+    "head": "ef3bfa8",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Fix ledgerlite SPEC violations (S1-S4, S6, S8-S10) with regression tests"
+   },
+   {
+    "label": "t2-n2@70b69b6dceef4cc61ac7869aee99578fbdfb114b",
+    "head": "70b69b6",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Fix review P2: exact arithmetic for large amounts, no CLI traceback"
+   },
+   {
+    "label": "t2-n2@501936dc57a779508ac2d40b564c95b5b7ee7b8f",
+    "head": "501936d",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Bound amount range and fix format_money precision (review F1-F6)"
+   },
+   {
+    "label": "t2-n2@8687af9c5fe4bc41ef5810a6bf9713ce6067c1d3",
+    "head": "8687af9",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Close ledgerlite SPEC conformance: review APPROVE, rollback notes"
+   },
+   {
+    "label": "t2-n2@cfb2724bb7a2ce7a4fb26ef91e9bf2539aaa971c",
+    "head": "cfb2724",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": [],
+    "subject": "Record release gate QA evidence for ledgerlite conformance"
+   },
+   {
+    "label": "t2-n2@worktree",
+    "head": "cfb2724",
+    "dirty_nonwork_paths": 3,
+    "visible": "OK",
+    "hidden_pass": 11,
+    "hidden_total": 11,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 81,
+   "bytes": 177390
+  },
+  "commits": [
+   "cfb2724 Record release gate QA evidence for ledgerlite conformance | Claude Opus 5.5 <noreply@anthropic.com>",
+   "8687af9 Close ledgerlite SPEC conformance: review APPROVE, rollback notes | Claude Opus 5.5 <noreply@anthropic.com>",
+   "501936d Bound amount range and fix format_money precision (review F1-F6) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "70b69b6 Fix review P2: exact arithmetic for large amounts, no CLI traceback | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ef3bfa8 Fix ledgerlite SPEC violations (S1-S4, S6, S8-S10) with regression tests | Claude Opus 5.5 <noreply@anthropic.com>",
+   "688096b baseline (seeded, n2) | "
+  ]
+ },
+ "t3-n0": {
+  "workspace": "t3-n0",
+  "sessions": [
+   {
+    "session": "t3-n0",
+    "subtype": "NO_RESULT_RECORD (killed/interrupted)",
+    "wall_s": null,
+    "cost_usd_est": null,
+    "turns": null,
+    "top_level_tool_calls": 9,
+    "subagents_spawned": null,
+    "models": [],
+    "output_tokens": {},
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t3-n0-resume",
+    "subtype": "success",
+    "wall_s": 149,
+    "cost_usd_est": 0.829867,
+    "turns": 14,
+    "top_level_tool_calls": 18,
+    "subagents_spawned": 1,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 15161
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t3-n0@2939030eee8f2640f5357fa6ca6053690d8a884b",
+    "head": "2939030",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n0)"
+   },
+   {
+    "label": "t3-n0@5938fbb288bad876a27845e3e70e573f1e9f984f",
+    "head": "5938fbb",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t3-n0@a89b0eca0ecb736305d0d121770dcccc84c404de",
+    "head": "a89b0ec",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Document and pin CSV unit_price display rounding (S15)"
+   },
+   {
+    "label": "t3-n0@worktree",
+    "head": "a89b0ec",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "a89b0ec Document and pin CSV unit_price display rounding (S15) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "5938fbb Add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "2939030 baseline (clean, n0) | "
+  ]
+ },
+ "t3-n0r": {
+  "workspace": "t3-n0r",
+  "sessions": [
+   {
+    "session": "t3-n0r",
+    "subtype": "NO_RESULT_RECORD (killed/interrupted)",
+    "wall_s": null,
+    "cost_usd_est": null,
+    "turns": null,
+    "top_level_tool_calls": 9,
+    "subagents_spawned": null,
+    "models": [],
+    "output_tokens": {},
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t3-n0r-resume",
+    "subtype": "success",
+    "wall_s": 156,
+    "cost_usd_est": 0.6487992000000001,
+    "turns": 9,
+    "top_level_tool_calls": 16,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 12703,
+     "claude-sonnet-5-5": 2522
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t3-n0r@2939030eee8f2640f5357fa6ca6053690d8a884b",
+    "head": "2939030",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n0)"
+   },
+   {
+    "label": "t3-n0r@04892239111b7eee4719c99318d09ea026df1cbd",
+    "head": "0489223",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t3-n0r@7b95dc57fd948c20b143b79c49efc4478dfcd5ac",
+    "head": "7b95dc5",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Fix review findings for multi-currency support"
+   },
+   {
+    "label": "t3-n0r@f9b5ac8b495748520af0527f4fea0c5b10fc48c2",
+    "head": "f9b5ac8",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Clarify USD unit_price formatting comment in CSV export"
+   },
+   {
+    "label": "t3-n0r@worktree",
+    "head": "f9b5ac8",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "f9b5ac8 Clarify USD unit_price formatting comment in CSV export | Claude Opus 5.5 <noreply@anthropic.com>",
+   "7b95dc5 Fix review findings for multi-currency support | Claude Opus 5.5 <noreply@anthropic.com>",
+   "0489223 Add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "2939030 baseline (clean, n0) | "
+  ]
+ },
+ "t3-n1": {
+  "workspace": "t3-n1",
+  "sessions": [
+   {
+    "session": "t3-n1",
+    "subtype": "NO_RESULT_RECORD (killed/interrupted)",
+    "wall_s": null,
+    "cost_usd_est": null,
+    "turns": null,
+    "top_level_tool_calls": 12,
+    "subagents_spawned": null,
+    "models": [],
+    "output_tokens": {},
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t3-n1-resume",
+    "subtype": "success",
+    "wall_s": 268,
+    "cost_usd_est": 0.9714839000000001,
+    "turns": 14,
+    "top_level_tool_calls": 21,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 16986,
+     "claude-sonnet-5-5": 2573
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t3-n1@0e8ad847038d1e3e876bfa3673cad5fb1645d79f",
+    "head": "0e8ad84",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n1)"
+   },
+   {
+    "label": "t3-n1@bde722bdb2a8a67dd9422c9bccf3d40485d2489f",
+    "head": "bde722b",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t3-n1@2fe5f58e3c4941e6de58c2469cd25845f0a199d2",
+    "head": "2fe5f58",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Address review: document CSV unit_price rounding, reject non-object JSON"
+   },
+   {
+    "label": "t3-n1@b3df9af92e1488dee6b5db38342a0f8340ff08b5",
+    "head": "b3df9af",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Record RelWit review evidence for RW-0001 (multi-currency)"
+   },
+   {
+    "label": "t3-n1@worktree",
+    "head": "b3df9af",
+    "dirty_nonwork_paths": 3,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 18,
+   "bytes": 17387
+  },
+  "commits": [
+   "b3df9af Record RelWit review evidence for RW-0001 (multi-currency) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "2fe5f58 Address review: document CSV unit_price rounding, reject non-object JSON | Claude Opus 5.5 <noreply@anthropic.com>",
+   "bde722b Add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "0e8ad84 baseline (clean, n1) | "
+  ]
+ },
+ "t3-n2": {
+  "workspace": "t3-n2",
+  "sessions": [
+   {
+    "session": "t3-n2",
+    "subtype": "NO_RESULT_RECORD (killed/interrupted)",
+    "wall_s": null,
+    "cost_usd_est": null,
+    "turns": null,
+    "top_level_tool_calls": 20,
+    "subagents_spawned": null,
+    "models": [],
+    "output_tokens": {},
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t3-n2-resume",
+    "subtype": "success",
+    "wall_s": 841,
+    "cost_usd_est": 2.4627058,
+    "turns": 38,
+    "top_level_tool_calls": 67,
+    "subagents_spawned": 4,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 37894,
+     "claude-sonnet-5-5": 10410
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t3-n2@8b9038f99c8bd929fe048f42fc5bdf7f53180f29",
+    "head": "8b9038f",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n2)"
+   },
+   {
+    "label": "t3-n2@230aab64059b9d7e4bda6f0a0b40e9736fae0a14",
+    "head": "230aab6",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 4,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "Add currency model to money helpers and SPEC Currencies section (RW-0001)"
+   },
+   {
+    "label": "t3-n2@d5e608ef579fa7a4bccdb724d233611925ae6172",
+    "head": "d5e608e",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add invoice currency, CSV currency column and CLI --currency (RW-0002)"
+   },
+   {
+    "label": "t3-n2@3ab28f533a5e34f731c3b62199a1337785d246b7",
+    "head": "3ab28f5",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Keep baseline CSV unit_price formatting (RW-0005)"
+   },
+   {
+    "label": "t3-n2@d5f7676e4f3e61e55bae9f0bca3f043b49a5dabe",
+    "head": "d5f7676",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Record RelWit review evidence and task closure for multi-currency work"
+   },
+   {
+    "label": "t3-n2@6b70bbc92d93c4de1447c88dbe06c6870378f231",
+    "head": "6b70bbc",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "RelWit QA pass and checkpoint for multi-currency release"
+   },
+   {
+    "label": "t3-n2@worktree",
+    "head": "6b70bbc",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 59,
+   "bytes": 114899
+  },
+  "commits": [
+   "6b70bbc RelWit QA pass and checkpoint for multi-currency release | Claude Opus 5.5 <noreply@anthropic.com>",
+   "d5f7676 Record RelWit review evidence and task closure for multi-currency work | Claude Opus 5.5 <noreply@anthropic.com>",
+   "3ab28f5 Keep baseline CSV unit_price formatting (RW-0005) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "d5e608e Add invoice currency, CSV currency column and CLI --currency (RW-0002) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "230aab6 Add currency model to money helpers and SPEC Currencies section (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "8b9038f baseline (clean, n2) | "
+  ]
+ },
+ "t3e-n0": {
+  "workspace": "t3e-n0",
+  "sessions": [
+   {
+    "session": "t3e-n0",
+    "subtype": "NO_RESULT_RECORD (killed/interrupted)",
+    "wall_s": null,
+    "cost_usd_est": null,
+    "turns": null,
+    "top_level_tool_calls": 5,
+    "subagents_spawned": null,
+    "models": [],
+    "output_tokens": {},
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t3e-n0-resume",
+    "subtype": "success",
+    "wall_s": 173,
+    "cost_usd_est": 0.8530822000000001,
+    "turns": 10,
+    "top_level_tool_calls": 22,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 13463,
+     "claude-sonnet-5-5": 6442
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t3e-n0@6de65a20940f76cad7a05242948b9fd1e11688e2",
+    "head": "6de65a2",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n0)"
+   },
+   {
+    "label": "t3e-n0@7f6c63741a45349009b2b76edda6ee5747045951",
+    "head": "7f6c637",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t3e-n0@worktree",
+    "head": "7f6c637",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "7f6c637 Add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "6de65a2 baseline (clean, n0) | "
+  ]
+ },
+ "t3e-n1": {
+  "workspace": "t3e-n1",
+  "sessions": [
+   {
+    "session": "t3e-n1",
+    "subtype": "NO_RESULT_RECORD (killed/interrupted)",
+    "wall_s": null,
+    "cost_usd_est": null,
+    "turns": null,
+    "top_level_tool_calls": 7,
+    "subagents_spawned": null,
+    "models": [],
+    "output_tokens": {},
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t3e-n1-resume",
+    "subtype": "success",
+    "wall_s": 267,
+    "cost_usd_est": 1.2361772999999994,
+    "turns": 16,
+    "top_level_tool_calls": 33,
+    "subagents_spawned": 3,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 21689,
+     "claude-sonnet-5-5": 7823
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t3e-n1@3fbaac0ecac05e5cfa328e89d6410d598ac7117d",
+    "head": "3fbaac0",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n1)"
+   },
+   {
+    "label": "t3e-n1@ed2bd853d0d8cc931d0cdc1faf706ff923d2d13c",
+    "head": "ed2bd85",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD/EUR/JPY)"
+   },
+   {
+    "label": "t3e-n1@ea2672e0fd57bb617d7bce284d9ccf7068e07be5",
+    "head": "ea2672e",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Address review: document CSV unit_price rounding, pin it with a test, tidy leftovers"
+   },
+   {
+    "label": "t3e-n1@987514bb1fe9dc468c2a97174fab64e71730d5d4",
+    "head": "987514b",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Record RW-0001 review evidence and completion"
+   },
+   {
+    "label": "t3e-n1@worktree",
+    "head": "987514b",
+    "dirty_nonwork_paths": 3,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 18,
+   "bytes": 17282
+  },
+  "commits": [
+   "987514b Record RW-0001 review evidence and completion | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ea2672e Address review: document CSV unit_price rounding, pin it with a test, tidy leftovers | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ed2bd85 Add multi-currency support (USD/EUR/JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "3fbaac0 baseline (clean, n1) | "
+  ]
+ },
+ "t3e-n2": {
+  "workspace": "t3e-n2",
+  "sessions": [
+   {
+    "session": "t3e-n2",
+    "subtype": "NO_RESULT_RECORD (killed/interrupted)",
+    "wall_s": null,
+    "cost_usd_est": null,
+    "turns": null,
+    "top_level_tool_calls": 13,
+    "subagents_spawned": null,
+    "models": [],
+    "output_tokens": {},
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t3e-n2-resume",
+    "subtype": "success",
+    "wall_s": 710,
+    "cost_usd_est": 3.0583363000000015,
+    "turns": 41,
+    "top_level_tool_calls": 82,
+    "subagents_spawned": 6,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 49083,
+     "claude-sonnet-5-5": 13471
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t3e-n2@b0eae6aef73e2ee1812bf3a4eaae84bb4e6c66cc",
+    "head": "b0eae6a",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n2)"
+   },
+   {
+    "label": "t3e-n2@5894f00179f5a579a6371ae7b292ebfebfa6d1e6",
+    "head": "5894f00",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 4,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "Add Currencies spec and currency-aware money helpers (RW-0001)"
+   },
+   {
+    "label": "t3e-n2@79d51bdab7b96a6677f1bfda77a7f5acb05a5278",
+    "head": "79d51bd",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add invoice, CSV and CLI currency support (RW-0002)"
+   },
+   {
+    "label": "t3e-n2@7e682e372409af8dd24b0aee427992351ee08b33",
+    "head": "7e682e3",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Restore baseline USD CSV unit_price formatting (RW-0006)"
+   },
+   {
+    "label": "t3e-n2@fc483b9aaa48f1cf21206e93ad9a3847bd8c8722",
+    "head": "fc483b9",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Record RelWit review evidence, decision 0011 and gate state for multi-currency"
+   },
+   {
+    "label": "t3e-n2@6c5cfa8b044cdc2315268a609ff40158a130ae08",
+    "head": "6c5cfa8",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "RelWit checkpoint: multi-currency gate state"
+   },
+   {
+    "label": "t3e-n2@worktree",
+    "head": "6c5cfa8",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 68,
+   "bytes": 125910
+  },
+  "commits": [
+   "6c5cfa8 RelWit checkpoint: multi-currency gate state | Claude Opus 5.5 <noreply@anthropic.com>",
+   "fc483b9 Record RelWit review evidence, decision 0011 and gate state for multi-currency | Claude Opus 5.5 <noreply@anthropic.com>",
+   "7e682e3 Restore baseline USD CSV unit_price formatting (RW-0006) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "79d51bd Add invoice, CSV and CLI currency support (RW-0002) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "5894f00 Add Currencies spec and currency-aware money helpers (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "b0eae6a baseline (clean, n2) | "
+  ]
+ },
+ "t5-n0": {
+  "workspace": "t5-n0",
+  "sessions": [
+   {
+    "session": "t5-n0",
+    "subtype": "success",
+    "wall_s": 235,
+    "cost_usd_est": 1.2387389999999998,
+    "turns": 21,
+    "top_level_tool_calls": 31,
+    "subagents_spawned": 3,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 23049,
+     "claude-sonnet-5-5": 6470
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t5-n0@6cae2c4c8581360aee8f493e1fb2ea961a935d56",
+    "head": "6cae2c4",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 1,
+    "hidden_total": 5,
+    "hidden_failed": [
+     "test_W_line_count",
+     "test_X_to_json",
+     "test_Y_parse_accounting",
+     "test_Z_cli_json"
+    ],
+    "subject": "baseline (clean, n0)"
+   },
+   {
+    "label": "t5-n0@72dc257747ad05161e78863cf0843feae7438e28",
+    "head": "72dc257",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": [],
+    "subject": "Add JSON export, --json CLI flag, line_count and $/paren amount parsing"
+   },
+   {
+    "label": "t5-n0@cf6f2aeedb48b11c9c8fc3ba438d9789a61632cc",
+    "head": "cf6f2ae",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": [],
+    "subject": "Harden parse_amount accounting syntax per review"
+   },
+   {
+    "label": "t5-n0@worktree",
+    "head": "cf6f2ae",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "cf6f2ae Harden parse_amount accounting syntax per review | Claude Opus 5.5 <noreply@anthropic.com>",
+   "72dc257 Add JSON export, --json CLI flag, line_count and $/paren amount parsing | Claude Opus 5.5 <noreply@anthropic.com>",
+   "6cae2c4 baseline (clean, n0) | "
+  ]
+ },
+ "t5-n1": {
+  "workspace": "t5-n1",
+  "sessions": [
+   {
+    "session": "t5-n1",
+    "subtype": "success",
+    "wall_s": 252,
+    "cost_usd_est": 1.5558173000000002,
+    "turns": 30,
+    "top_level_tool_calls": 41,
+    "subagents_spawned": 3,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 23496,
+     "claude-sonnet-5-5": 10878
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t5-n1@5e6382588206f0f1b1dbef0e9949274910faf6b8",
+    "head": "5e63825",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 1,
+    "hidden_total": 5,
+    "hidden_failed": [
+     "test_W_line_count",
+     "test_X_to_json",
+     "test_Y_parse_accounting",
+     "test_Z_cli_json"
+    ],
+    "subject": "baseline (clean, n1)"
+   },
+   {
+    "label": "t5-n1@9f6c9e3ed0115cf1f8180be6ba138665affb391e",
+    "head": "9f6c9e3",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": [],
+    "subject": "Add JSON export, CLI --json, Invoice.line_count and $/parenthesis amount parsing"
+   },
+   {
+    "label": "t5-n1@caa493b29d9ed8e6b4d540d50028021490db960c",
+    "head": "caa493b",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": [],
+    "subject": "Fix review findings: half-up money formatting in exports, overflow-safe negation, strict w"
+   },
+   {
+    "label": "t5-n1@369f2fc2df7e60eeb9cd8e029302330a92e5c5c2",
+    "head": "369f2fc",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": [],
+    "subject": "Record RelWit evidence for RW-0001"
+   },
+   {
+    "label": "t5-n1@worktree",
+    "head": "369f2fc",
+    "dirty_nonwork_paths": 3,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 18,
+   "bytes": 17732
+  },
+  "commits": [
+   "369f2fc Record RelWit evidence for RW-0001 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "caa493b Fix review findings: half-up money formatting in exports, overflow-safe negation, strict whitespace | Claude Opus 5.5 <noreply@anthropic.com>",
+   "9f6c9e3 Add JSON export, CLI --json, Invoice.line_count and $/parenthesis amount parsing | Claude Opus 5.5 <noreply@anthropic.com>",
+   "5e63825 baseline (clean, n1) | "
+  ]
+ },
+ "t5-n2": {
+  "workspace": "t5-n2",
+  "sessions": [
+   {
+    "session": "t5-n2",
+    "subtype": "success",
+    "wall_s": 469,
+    "cost_usd_est": 2.8617143000000005,
+    "turns": 44,
+    "top_level_tool_calls": 83,
+    "subagents_spawned": 8,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 40064,
+     "claude-sonnet-5-5": 17208
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t5-n2@3dcfe69b209f7d6872d2a0914ea34be6b26baa64",
+    "head": "3dcfe69",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 1,
+    "hidden_total": 5,
+    "hidden_failed": [
+     "test_W_line_count",
+     "test_X_to_json",
+     "test_Y_parse_accounting",
+     "test_Z_cli_json"
+    ],
+    "subject": "baseline (clean, n2)"
+   },
+   {
+    "label": "t5-n2@3bf2a5321c9df283e1729540a3882cba94dac1b0",
+    "head": "3bf2a53",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": [],
+    "subject": "ledgerlite: add JSON export, $/accounting amount parsing, CLI --json and Invoice.line_coun"
+   },
+   {
+    "label": "t5-n2@15b53ee1681071411ba37308d212db2c720f1088",
+    "head": "15b53ee",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": [],
+    "subject": "ledgerlite: round to_json money strings half-up and normalize negative zero"
+   },
+   {
+    "label": "t5-n2@624bb5c3b171739bb6e0d0f5f7fa09c389bb541c",
+    "head": "624bb5c",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": [],
+    "subject": "relwit: record review evidence, close X/Y/Z/W tasks, add knowledge cards"
+   },
+   {
+    "label": "t5-n2@worktree",
+    "head": "624bb5c",
+    "dirty_nonwork_paths": 4,
+    "visible": "OK",
+    "hidden_pass": 5,
+    "hidden_total": 5,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 77,
+   "bytes": 151520
+  },
+  "commits": [
+   "624bb5c relwit: record review evidence, close X/Y/Z/W tasks, add knowledge cards | Claude Opus 5.5 <noreply@anthropic.com>",
+   "15b53ee ledgerlite: round to_json money strings half-up and normalize negative zero | Claude Opus 5.5 <noreply@anthropic.com>",
+   "3bf2a53 ledgerlite: add JSON export, $/accounting amount parsing, CLI --json and Invoice.line_count | Claude Opus 5.5 <noreply@anthropic.com>",
+   "3dcfe69 baseline (clean, n2) | "
+  ]
+ },
+ "t6-n0": {
+  "workspace": "t6-n0",
+  "sessions": [
+   {
+    "session": "t6-n0-A",
+    "subtype": "success",
+    "wall_s": 44,
+    "cost_usd_est": 0.1734626,
+    "turns": 6,
+    "top_level_tool_calls": 5,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-sonnet-5-5": 6208
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n0-B",
+    "subtype": "success",
+    "wall_s": 158,
+    "cost_usd_est": 0.7714919,
+    "turns": 8,
+    "top_level_tool_calls": 16,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 13871,
+     "claude-sonnet-5-5": 2958
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n0-C",
+    "subtype": "success",
+    "wall_s": 83,
+    "cost_usd_est": 0.6487651999999999,
+    "turns": 11,
+    "top_level_tool_calls": 10,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 7846
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n0-Cclone",
+    "subtype": "success",
+    "wall_s": 38,
+    "cost_usd_est": 0.1880276,
+    "turns": 5,
+    "top_level_tool_calls": 4,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 2716
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t6-n0@cc7ed10e39bc54410d861f000c83fd07c1adb75b",
+    "head": "cc7ed10",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n0)"
+   },
+   {
+    "label": "t6-n0@c9397beb57f8ce8c7eac3f5e7c9764063917bca9",
+    "head": "c9397be",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t6-n0@8ac8238dab940a72808cc79481e630c554710811",
+    "head": "8ac8238",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Address multi-currency review: CLI non-object JSON, spec wording, tests"
+   },
+   {
+    "label": "t6-n0@worktree",
+    "head": "8ac8238",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "8ac8238 Address multi-currency review: CLI non-object JSON, spec wording, tests | Claude Opus 5.5 <noreply@anthropic.com>",
+   "c9397be Add multi-currency support (USD, EUR, JPY) | Claude Sonnet 5.5 <noreply@anthropic.com>",
+   "cc7ed10 baseline (clean, n0) | "
+  ]
+ },
+ "t6-n1": {
+  "workspace": "t6-n1",
+  "sessions": [
+   {
+    "session": "t6-n1-A",
+    "subtype": "success",
+    "wall_s": 43,
+    "cost_usd_est": 0.1683918,
+    "turns": 5,
+    "top_level_tool_calls": 4,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-sonnet-5-5": 5954
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n1-B",
+    "subtype": "success",
+    "wall_s": 209,
+    "cost_usd_est": 1.0122085,
+    "turns": 16,
+    "top_level_tool_calls": 26,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 19117,
+     "claude-sonnet-5-5": 1186
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n1-C",
+    "subtype": "success",
+    "wall_s": 86,
+    "cost_usd_est": 0.6680297999999999,
+    "turns": 10,
+    "top_level_tool_calls": 9,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 8918
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n1-Cclone",
+    "subtype": "success",
+    "wall_s": 62,
+    "cost_usd_est": 0.33698480000000003,
+    "turns": 5,
+    "top_level_tool_calls": 4,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 5370
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t6-n1@25b4903d11deadbbf8e69bfd69ff3d010ad5e6bb",
+    "head": "25b4903",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n1)"
+   },
+   {
+    "label": "t6-n1@6230952cc37ac99d8214ebb5b1a930f8aba5bd06",
+    "head": "6230952",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t6-n1@67f34286e2831e4f6d457e237f03fe2070e8b943",
+    "head": "67f3428",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Preserve baseline USD CSV unit_price formatting; document --currency and rollback"
+   },
+   {
+    "label": "t6-n1@b2d37e49dbd8cf0c8709155dd72f4f3f1165f9f5",
+    "head": "b2d37e4",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "SPEC: clarify CSV unit_price display rounding in S15"
+   },
+   {
+    "label": "t6-n1@409a4f3016010911c9d4ba5c120b0ed620fa3954",
+    "head": "409a4f3",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Record RelWit review evidence for RW-0001"
+   },
+   {
+    "label": "t6-n1@worktree",
+    "head": "409a4f3",
+    "dirty_nonwork_paths": 3,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 18,
+   "bytes": 16132
+  },
+  "commits": [
+   "409a4f3 Record RelWit review evidence for RW-0001 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "b2d37e4 SPEC: clarify CSV unit_price display rounding in S15 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "67f3428 Preserve baseline USD CSV unit_price formatting; document --currency and rollback | Claude Opus 5.5 <noreply@anthropic.com>",
+   "6230952 Add multi-currency support (USD, EUR, JPY) | Claude Sonnet 5.5 <noreply@anthropic.com>",
+   "25b4903 baseline (clean, n1) | "
+  ]
+ },
+ "t6-n2": {
+  "workspace": "t6-n2",
+  "sessions": [
+   {
+    "session": "t6-n2-A",
+    "subtype": "error_max_turns",
+    "wall_s": 47,
+    "cost_usd_est": 0.2028982,
+    "turns": 7,
+    "top_level_tool_calls": 7,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-sonnet-5-5": 7217
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n2-B",
+    "subtype": "success",
+    "wall_s": 363,
+    "cost_usd_est": 1.8060413999999996,
+    "turns": 26,
+    "top_level_tool_calls": 49,
+    "subagents_spawned": 4,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 28689,
+     "claude-sonnet-5-5": 7356
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n2-C",
+    "subtype": "success",
+    "wall_s": 115,
+    "cost_usd_est": 0.9666254000000001,
+    "turns": 12,
+    "top_level_tool_calls": 11,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 11518
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6-n2-Cclone",
+    "subtype": "success",
+    "wall_s": 68,
+    "cost_usd_est": 0.3856802,
+    "turns": 9,
+    "top_level_tool_calls": 8,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 5864
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t6-n2@f011a63d3ef2ad4712420d4f56ad88f4212f2366",
+    "head": "f011a63",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n2)"
+   },
+   {
+    "label": "t6-n2@c695a6426a442f2945195ebe2c9b26ce0405d259",
+    "head": "c695a64",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (RW-0001)"
+   },
+   {
+    "label": "t6-n2@7fb2d4b295e7226685f684ce58f1283556c78cfd",
+    "head": "7fb2d4b",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Complete multi-currency takeover (RW-0002)"
+   },
+   {
+    "label": "t6-n2@3fa2e954f7dddf663d0994f38c509be14cd96928",
+    "head": "3fa2e95",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Test all CLI summary lines use invoice currency (RW-0003)"
+   },
+   {
+    "label": "t6-n2@3c62d4345f31448b4edc6900ac0a760056005e62",
+    "head": "3c62d43",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Register RelWit worker roster (implementer-1, implementer-2, reviewer)"
+   },
+   {
+    "label": "t6-n2@95a8effc04b30c2c0662e01f811b31958b767a90",
+    "head": "95a8eff",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Record ADR-0001: CSV unit_price formatting under multi-currency"
+   },
+   {
+    "label": "t6-n2@worktree",
+    "head": "95a8eff",
+    "dirty_nonwork_paths": 6,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 63,
+   "bytes": 111413
+  },
+  "commits": [
+   "95a8eff Record ADR-0001: CSV unit_price formatting under multi-currency | Claude Opus 5.5 <noreply@anthropic.com>",
+   "3c62d43 Register RelWit worker roster (implementer-1, implementer-2, reviewer) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "3fa2e95 Test all CLI summary lines use invoice currency (RW-0003) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "7fb2d4b Complete multi-currency takeover (RW-0002) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "c695a64 Add multi-currency support (RW-0001) | Claude Sonnet 5.5 <noreply@anthropic.com>",
+   "f011a63 baseline (clean, n2) | "
+  ]
+ },
+ "t6b-n0": {
+  "workspace": "t6b-n0",
+  "sessions": [
+   {
+    "session": "t6b-n0-A",
+    "subtype": "error_max_turns",
+    "wall_s": 36,
+    "cost_usd_est": 0.11490239999999999,
+    "turns": 4,
+    "top_level_tool_calls": 3,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-sonnet-5-5": 5031
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n0-B",
+    "subtype": "success",
+    "wall_s": 117,
+    "cost_usd_est": 0.5912952000000001,
+    "turns": 8,
+    "top_level_tool_calls": 13,
+    "subagents_spawned": 1,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 11765
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n0-C",
+    "subtype": "success",
+    "wall_s": 80,
+    "cost_usd_est": 0.6680262,
+    "turns": 9,
+    "top_level_tool_calls": 8,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 7744
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n0-Cclone",
+    "subtype": "success",
+    "wall_s": 33,
+    "cost_usd_est": 0.16736,
+    "turns": 4,
+    "top_level_tool_calls": 3,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 2149
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t6b-n0@f6c0e4557784845337722d17ad36983afa70f107",
+    "head": "f6c0e45",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n0)"
+   },
+   {
+    "label": "t6b-n0@6a45cf83785b26ac972646317b29a86561a1b3bb",
+    "head": "6a45cf8",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t6b-n0@72ccb2288d9402cc5b2d62f4d1bcf3071a666b74",
+    "head": "72ccb22",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Clarify CSV unit_price formatting in SPEC; add currency edge-case tests"
+   },
+   {
+    "label": "t6b-n0@worktree",
+    "head": "72ccb22",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "72ccb22 Clarify CSV unit_price formatting in SPEC; add currency edge-case tests | Claude Opus 5.5 <noreply@anthropic.com>",
+   "6a45cf8 Add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "f6c0e45 baseline (clean, n0) | "
+  ]
+ },
+ "t6b-n1": {
+  "workspace": "t6b-n1",
+  "sessions": [
+   {
+    "session": "t6b-n1-A",
+    "subtype": "error_max_turns",
+    "wall_s": 35,
+    "cost_usd_est": 0.1169068,
+    "turns": 4,
+    "top_level_tool_calls": 3,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-sonnet-5-5": 4952
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n1-B",
+    "subtype": "success",
+    "wall_s": 234,
+    "cost_usd_est": 1.0062467,
+    "turns": 13,
+    "top_level_tool_calls": 21,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 17502,
+     "claude-sonnet-5-5": 8033
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n1-C",
+    "subtype": "success",
+    "wall_s": 74,
+    "cost_usd_est": 0.5847692,
+    "turns": 10,
+    "top_level_tool_calls": 9,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 7328
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n1-Cclone",
+    "subtype": "success",
+    "wall_s": 58,
+    "cost_usd_est": 0.3415892,
+    "turns": 8,
+    "top_level_tool_calls": 7,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 4648
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t6b-n1@de73f8b511c373fb2db2f58c80f04774ed13fd97",
+    "head": "de73f8b",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n1)"
+   },
+   {
+    "label": "t6b-n1@4b09466c5b9ff26e35d5efef95198f6e6558fc5e",
+    "head": "4b09466",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t6b-n1@57b7de4e733e74a833c3e4abf51118a72b38394d",
+    "head": "57b7de4",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "Record RW-0001 implementation report and review evidence"
+   },
+   {
+    "label": "t6b-n1@worktree",
+    "head": "57b7de4",
+    "dirty_nonwork_paths": 3,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 18,
+   "bytes": 16025
+  },
+  "commits": [
+   "57b7de4 Record RW-0001 implementation report and review evidence | Claude Opus 5.5 <noreply@anthropic.com>",
+   "4b09466 Add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "de73f8b baseline (clean, n1) | "
+  ]
+ },
+ "t6b-n2": {
+  "workspace": "t6b-n2",
+  "sessions": [
+   {
+    "session": "t6b-n2-A",
+    "subtype": "error_max_turns",
+    "wall_s": 12,
+    "cost_usd_est": 0.080284,
+    "turns": 4,
+    "top_level_tool_calls": 5,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-sonnet-5-5": 773
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n2-B",
+    "subtype": "success",
+    "wall_s": 446,
+    "cost_usd_est": 2.1484205,
+    "turns": 29,
+    "top_level_tool_calls": 57,
+    "subagents_spawned": 4,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 36386,
+     "claude-sonnet-5-5": 12491
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n2-C",
+    "subtype": "success",
+    "wall_s": 111,
+    "cost_usd_est": 0.8987350000000001,
+    "turns": 13,
+    "top_level_tool_calls": 12,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 10762
+    },
+    "isolation_worktree_calls": 0
+   },
+   {
+    "session": "t6b-n2-Cclone",
+    "subtype": "success",
+    "wall_s": 91,
+    "cost_usd_est": 0.5994904,
+    "turns": 8,
+    "top_level_tool_calls": 7,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 8956
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "scores": [
+   {
+    "label": "t6b-n2@850db0df27721f0ad4c0bea7e12d40c750bfd391",
+    "head": "850db0d",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 2,
+    "hidden_total": 8,
+    "hidden_failed": [
+     "test_C1_round_minor_units",
+     "test_C2_format",
+     "test_C3_unsupported",
+     "test_C4_invoice_jpy",
+     "test_C6_csv_currency_column",
+     "test_C7_cli_currency"
+    ],
+    "subject": "baseline (clean, n2)"
+   },
+   {
+    "label": "t6b-n2@b941ffd881e6b470186c08adb4036f5c311a5b78",
+    "head": "b941ffd",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "ledgerlite: add multi-currency support (USD, EUR, JPY)"
+   },
+   {
+    "label": "t6b-n2@668d618fb033b11c67fda691150b5526045ab162",
+    "head": "668d618",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "relwit: register implementer-1/2, plan RW-0002/RW-0003 takeover of failed RW-0001"
+   },
+   {
+    "label": "t6b-n2@75ccd049f2930129905dc01485d127b4c5167923",
+    "head": "75ccd04",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": [],
+    "subject": "relwit: record reviews, QA and release gate for currency support"
+   },
+   {
+    "label": "t6b-n2@worktree",
+    "head": "75ccd04",
+    "dirty_nonwork_paths": 0,
+    "visible": "OK",
+    "hidden_pass": 8,
+    "hidden_total": 8,
+    "hidden_failed": []
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 57,
+   "bytes": 105375
+  },
+  "commits": [
+   "75ccd04 relwit: record reviews, QA and release gate for currency support | Claude Opus 5.5 <noreply@anthropic.com>",
+   "668d618 relwit: register implementer-1/2, plan RW-0002/RW-0003 takeover of failed RW-0001 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "b941ffd ledgerlite: add multi-currency support (USD, EUR, JPY) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "850db0d baseline (clean, n2) | "
+  ]
+ },
+ "t4-n0": {
+  "workspace": "t4-n0",
+  "sessions": [
+   {
+    "session": "t4-n0-qa",
+    "subtype": "success",
+    "wall_s": 510,
+    "cost_usd_est": 0.24069959999999999,
+    "turns": 9,
+    "top_level_tool_calls": 7,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 2902
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "ac4bbee Simplify money rounding | ",
+   "e16d818 Record passing release QA for 7ab4bd6 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "7ab4bd6 Add full QA script with soak check | ",
+   "60135f9 baseline (clean, n0) | "
+  ]
+ },
+ "t4-n1": {
+  "workspace": "t4-n1",
+  "sessions": [
+   {
+    "session": "t4-n1-qa",
+    "subtype": "success",
+    "wall_s": 1059,
+    "cost_usd_est": 0.6470414,
+    "turns": 19,
+    "top_level_tool_calls": 21,
+    "subagents_spawned": 1,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 10303
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 20,
+   "bytes": 18303
+  },
+  "commits": [
+   "80c8c11 Simplify money rounding | ",
+   "efe5d17 Record independent review of RW-0001 release QA | Claude Opus 5.5 <noreply@anthropic.com>",
+   "a3eba9e Record full release QA pass for db380b3 (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "db380b3 Add full QA script with soak check | ",
+   "3932432 baseline (clean, n1) | "
+  ]
+ },
+ "t4-n2": {
+  "workspace": "t4-n2",
+  "sessions": [
+   {
+    "session": "t4-n2-qa",
+    "subtype": "success",
+    "wall_s": 665,
+    "cost_usd_est": 1.0035564,
+    "turns": 21,
+    "top_level_tool_calls": 30,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 15721,
+     "claude-sonnet-5-5": 1683
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 39,
+   "bytes": 66947
+  },
+  "commits": [
+   "7bc4f51 Simplify money rounding | ",
+   "a6b2249 Close RW-0001: review approved, add release QA record | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ef05346 Record release QA evidence for ffae580 (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ffae580 Register RelWit worker roster and plan release QA task RW-0001 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "20e5f46 Add full QA script with soak check | ",
+   "8a61591 baseline (clean, n2) | "
+  ]
+ },
+ "t4-n0-d1": {
+  "workspace": "t4-n0-d1",
+  "sessions": [
+   {
+    "session": "t4-n0-d1",
+    "subtype": "success",
+    "wall_s": 23,
+    "cost_usd_est": 0.1512706,
+    "turns": 4,
+    "top_level_tool_calls": 3,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 1767
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "ac4bbee Simplify money rounding | ",
+   "e16d818 Record passing release QA for 7ab4bd6 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "7ab4bd6 Add full QA script with soak check | ",
+   "60135f9 baseline (clean, n0) | "
+  ]
+ },
+ "t4-n0-d2": {
+  "workspace": "t4-n0-d2",
+  "sessions": [
+   {
+    "session": "t4-n0-d2",
+    "subtype": "success",
+    "wall_s": 92,
+    "cost_usd_est": 0.1898842,
+    "turns": 5,
+    "top_level_tool_calls": 4,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 2610
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 0,
+   "bytes": 0
+  },
+  "commits": [
+   "ac4bbee Simplify money rounding | ",
+   "e16d818 Record passing release QA for 7ab4bd6 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "7ab4bd6 Add full QA script with soak check | ",
+   "60135f9 baseline (clean, n0) | "
+  ]
+ },
+ "t4-n1-d1": {
+  "workspace": "t4-n1-d1",
+  "sessions": [
+   {
+    "session": "t4-n1-d1",
+    "subtype": "success",
+    "wall_s": 30,
+    "cost_usd_est": 0.24486980000000003,
+    "turns": 6,
+    "top_level_tool_calls": 5,
+    "subagents_spawned": 0,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 2804
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 22,
+   "bytes": 22050
+  },
+  "commits": [
+   "80c8c11 Simplify money rounding | ",
+   "efe5d17 Record independent review of RW-0001 release QA | Claude Opus 5.5 <noreply@anthropic.com>",
+   "a3eba9e Record full release QA pass for db380b3 (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "db380b3 Add full QA script with soak check | ",
+   "3932432 baseline (clean, n1) | "
+  ]
+ },
+ "t4-n1-d2": {
+  "workspace": "t4-n1-d2",
+  "sessions": [
+   {
+    "session": "t4-n1-d2",
+    "subtype": "success",
+    "wall_s": 61,
+    "cost_usd_est": 0.34904379999999996,
+    "turns": 10,
+    "top_level_tool_calls": 11,
+    "subagents_spawned": 1,
+    "models": [
+     "claude-opus-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 5834
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 22,
+   "bytes": 24156
+  },
+  "commits": [
+   "80c8c11 Simplify money rounding | ",
+   "efe5d17 Record independent review of RW-0001 release QA | Claude Opus 5.5 <noreply@anthropic.com>",
+   "a3eba9e Record full release QA pass for db380b3 (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "db380b3 Add full QA script with soak check | ",
+   "3932432 baseline (clean, n1) | "
+  ]
+ },
+ "t4-n2-d1": {
+  "workspace": "t4-n2-d1",
+  "sessions": [
+   {
+    "session": "t4-n2-d1",
+    "subtype": "success",
+    "wall_s": 173,
+    "cost_usd_est": 0.9796092000000002,
+    "turns": 27,
+    "top_level_tool_calls": 35,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 15544,
+     "claude-sonnet-5-5": 1746
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 51,
+   "bytes": 93815
+  },
+  "commits": [
+   "7bc4f51 Simplify money rounding | ",
+   "a6b2249 Close RW-0001: review approved, add release QA record | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ef05346 Record release QA evidence for ffae580 (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ffae580 Register RelWit worker roster and plan release QA task RW-0001 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "20e5f46 Add full QA script with soak check | ",
+   "8a61591 baseline (clean, n2) | "
+  ]
+ },
+ "t4-n2-d2": {
+  "workspace": "t4-n2-d2",
+  "sessions": [
+   {
+    "session": "t4-n2-d2",
+    "subtype": "success",
+    "wall_s": 176,
+    "cost_usd_est": 0.9827061,
+    "turns": 23,
+    "top_level_tool_calls": 34,
+    "subagents_spawned": 2,
+    "models": [
+     "claude-opus-5-5",
+     "claude-sonnet-5-5"
+    ],
+    "output_tokens": {
+     "claude-opus-5-5": 14857,
+     "claude-sonnet-5-5": 2895
+    },
+    "isolation_worktree_calls": 0
+   }
+  ],
+  "coordination_artifacts": {
+   "files": 49,
+   "bytes": 88785
+  },
+  "commits": [
+   "7bc4f51 Simplify money rounding | ",
+   "a6b2249 Close RW-0001: review approved, add release QA record | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ef05346 Record release QA evidence for ffae580 (RW-0001) | Claude Opus 5.5 <noreply@anthropic.com>",
+   "ffae580 Register RelWit worker roster and plan release QA task RW-0001 | Claude Opus 5.5 <noreply@anthropic.com>",
+   "20e5f46 Add full QA script with soak check | ",
+   "8a61591 baseline (clean, n2) | "
+  ]
+ }
+}

@@ -1,0 +1,92 @@
+diff -ruN '--exclude=__pycache__' a/ledgerlite/cli.py ref5/ledgerlite/cli.py
+--- a/ledgerlite/cli.py	2026-09-29 18:31:00.791115607 +0000
++++ b/ledgerlite/cli.py	2026-09-29 18:32:50.610245234 +0000
+@@ -4,7 +4,7 @@
+ import json
+ import sys
+ 
+-from .export import to_csv
++from .export import to_csv, to_json
+ from .invoice import Invoice
+ from .money import format_money
+ 
+@@ -13,6 +13,7 @@
+     parser = argparse.ArgumentParser(prog="ledgerlite")
+     parser.add_argument("path", help="invoice JSON file")
+     parser.add_argument("--csv", action="store_true", help="print CSV instead of a summary")
++    parser.add_argument("--json", action="store_true", help="print JSON")
+     args = parser.parse_args(argv)
+     try:
+         with open(args.path, encoding="utf-8") as handle:
+@@ -20,6 +21,9 @@
+     except (OSError, ValueError, KeyError) as exc:
+         print(f"error: {exc}", file=sys.stderr)
+         return 1
++    if args.json:
++        print(to_json(invoice))
++        return 0
+     if args.csv:
+         sys.stdout.write(to_csv(invoice))
+         return 0
+diff -ruN '--exclude=__pycache__' a/ledgerlite/export.py ref5/ledgerlite/export.py
+--- a/ledgerlite/export.py	2026-09-29 18:30:57.339115401 +0000
++++ b/ledgerlite/export.py	2026-09-29 18:32:50.610154272 +0000
+@@ -2,6 +2,7 @@
+ 
+ import csv
+ import io
++import json
+ 
+ HEADER = ["description", "quantity", "unit_price", "discount_pct", "net"]
+ 
+@@ -20,5 +21,13 @@
+                 f"{line.net():.2f}",
+             ]
+         )
+-    writer.writerow(["TOTAL", "", "", "", f"{invoice.total():.2f}"])
++    writer.writerow(["TOTAL", str(invoice.line_count), "", "", f"{invoice.total():.2f}"])
+     return buffer.getvalue()
++
++
++def to_json(invoice):
++    return json.dumps({
++        "lines": [{"description": l.description, "quantity": l.quantity, "unit_price": f"{l.unit_price:.2f}",
++                   "discount_pct": str(l.discount_pct), "net": f"{l.net():.2f}"} for l in invoice.lines],
++        "subtotal": f"{invoice.subtotal():.2f}", "discount": f"{invoice.discount_total():.2f}",
++        "tax": f"{invoice.tax():.2f}", "total": f"{invoice.total():.2f}"})
+diff -ruN '--exclude=__pycache__' a/ledgerlite/invoice.py ref5/ledgerlite/invoice.py
+--- a/ledgerlite/invoice.py	2026-09-29 18:30:54.943115259 +0000
++++ b/ledgerlite/invoice.py	2026-09-29 18:32:50.610039556 +0000
+@@ -37,6 +37,10 @@
+         if self.tax_rate < 0 or self.tax_rate > 1:
+             raise ValueError("tax_rate must be a fraction between 0 and 1")
+ 
++    @property
++    def line_count(self):
++        return len(self.lines)
++
+     def subtotal(self):
+         return sum((line.gross() for line in self.lines), Decimal("0.00"))
+ 
+diff -ruN '--exclude=__pycache__' a/ledgerlite/money.py ref5/ledgerlite/money.py
+--- a/ledgerlite/money.py	2026-09-29 18:30:49.303114924 +0000
++++ b/ledgerlite/money.py	2026-09-29 18:32:50.609836449 +0000
+@@ -16,10 +16,17 @@
+     if isinstance(value, (int, Decimal)):
+         return Decimal(value)
+     text = str(value).strip().replace(",", "")
++    negative = False
++    if text.startswith("(") or text.endswith(")"):
++        if not (text.startswith("(") and text.endswith(")")):
++            raise ValueError(f"invalid amount: {value!r}")
++        negative, text = True, text[1:-1].strip()
++    text = text.removeprefix("$")
+     if not text:
+         raise ValueError("empty amount")
+     try:
+-        return Decimal(text)
++        amount = Decimal(text)
++        return -amount if negative else amount
+     except InvalidOperation as exc:
+         raise ValueError(f"invalid amount: {value!r}") from exc
+ 

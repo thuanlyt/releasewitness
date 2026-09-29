@@ -1,0 +1,5 @@
+## after attempt A
+de73f8b baseline (clean, n1)
+ M work/registry.json
+RW-0001	in_progress	L2	implementer	Add multi-currency support	deps:-
+{"label": "t6b-n1@A", "head": "de73f8b", "dirty_nonwork_paths": 1, "visible": "OK", "hidden_pass": 2, "hidden_total": 8, "hidden_failed": ["test_C1_round_minor_units", "test_C2_format", "test_C3_unsupported", "test_C4_invoice_jpy", "test_C6_csv_currency_column", "test_C7_cli_currency"]}

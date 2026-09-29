@@ -1,0 +1,1 @@
+{"transcript": "t3e-n2.jsonl", "top_level_tool_calls": 13, "tools": {"Bash": 12, "Agent": 1}, "agent_calls": [{"subagent_type": "implementer", "model": null, "isolation": null, "run_in_background": false, "description": "Implement RW-0001 money helpers"}], "subtype": "NO_RESULT_RECORD (killed/interrupted)", "models": "unavailable"}

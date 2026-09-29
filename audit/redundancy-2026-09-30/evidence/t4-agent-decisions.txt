@@ -1,0 +1,12 @@
+t4-n0-d1: verdict=NOT READY wall=23s cost=0.15 bash=3 ran_full_qa=False ran_unit=True used_relwit=False read_gate=False manual_sha_diff=True
+   first line: **NOT READY.** HEAD is `ac4bbee` ("Simplify money rounding"), and it fails the QA gate.
+t4-n0-d2: verdict=NOT READY wall=92s cost=0.19 bash=4 ran_full_qa=False ran_unit=True used_relwit=False read_gate=False manual_sha_diff=True
+   first line: # Verdict: NOT READY for HEAD `ac4bbee` ("Simplify money rounding")
+t4-n1-d1: verdict=NOT READY wall=30s cost=0.24 bash=5 ran_full_qa=True ran_unit=True used_relwit=True read_gate=True manual_sha_diff=False
+   first line: **NOT READY.** HEAD `80c8c11` ("Simplify money rounding") can't be released.
+t4-n1-d2: verdict=NOT READY wall=61s cost=0.35 bash=10 ran_full_qa=False ran_unit=True used_relwit=True read_gate=True manual_sha_diff=False
+   first line: **NOT READY.** HEAD `80c8c11` ("Simplify money rounding") cannot be released.
+t4-n2-d1: verdict=NOT READY wall=173s cost=0.98 bash=32 ran_full_qa=True ran_unit=True used_relwit=True read_gate=False manual_sha_diff=True
+   first line: # Result: NOT READY
+t4-n2-d2: verdict=NOT READY wall=176s cost=0.98 bash=32 ran_full_qa=True ran_unit=True used_relwit=True read_gate=True manual_sha_diff=True
+   first line: **NOT READY.** HEAD of `main` (`7bc4f51`, "Simplify money rounding") cannot be released.

@@ -1,0 +1,4 @@
+## after attempt A
+c9397be Add multi-currency support (USD, EUR, JPY)
+cc7ed10 baseline (clean, n0)
+{"label": "t6-n0@A", "head": "c9397be", "dirty_nonwork_paths": 0, "visible": "OK", "hidden_pass": 8, "hidden_total": 8, "hidden_failed": []}

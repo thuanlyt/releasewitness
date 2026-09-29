@@ -1,0 +1,21 @@
+ M work/SUPERVISOR_REPORT.md
+ M work/agents/implementer-2/COMPLETED.md
+ M work/agents/implementer-2/INBOX.md
+ M work/agents/implementer-2/REPORT.md
+ M work/completed/COMPLETED.md
+ M work/registry.json
+ M work/reports/REPORTS.md
+ M work/supervisor/LATEST_CYCLE.md
+ M work/supervisor/state.json
+ M work/telemetry/events.json
+?? work/.runtime-output/
+?? work/agents/implementer-2/inbox/
+?? work/checkpoints/20260929T185608Z-cycle-20260929t185608z-b04493.md
+?? work/checkpoints/20260929T185646Z-cycle-20260929t185646z-8fe60a.md
+?? work/checkpoints/20260929T185825Z-release-gate-7bc4f51.md
+?? work/evidence/RW-0002-head-verification.md
+?? work/items/RW-0002.md
+?? work/items/RW-0003.md
+?? work/items/RW-0004.md
+?? work/outbox/RW-0002-to-implementer-2.md
+?? work/reports/inbox/RW-0002-20260929T185638Z-bcdccd.md

@@ -1,0 +1,23 @@
+## kill-time ground truth
+KILLED after 71s (progress=5)
+## git log
+6de65a2 baseline (clean, n0)
+## worktrees
+/tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3e-n0  6de65a2 [main]
+### /tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3e-n0 status
+ M README.md
+ M SPEC.md
+ M ledgerlite/cli.py
+ M ledgerlite/export.py
+ M ledgerlite/invoice.py
+ M ledgerlite/money.py
+### /tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t3e-n0 diffstat vs baseline
+ README.md             |  2 +-
+ SPEC.md               | 37 ++++++++++++++++++++++++++++++++++++-
+ ledgerlite/cli.py     | 23 ++++++++++++++++-------
+ ledgerlite/export.py  | 13 +++++++++----
+ ledgerlite/invoice.py | 25 +++++++++++++------------
+ ledgerlite/money.py   | 39 +++++++++++++++++++++++++++++++--------
+ 6 files changed, 106 insertions(+), 33 deletions(-)
+## hidden score of main working tree at kill
+{"label": "t3e-n0@kill", "head": "6de65a2", "dirty_nonwork_paths": 6, "visible": "Ran 11 tests in 0.010s  FAILED (failures=1)", "hidden_pass": 7, "hidden_total": 8, "hidden_failed": ["test_C7_cli_currency"]}

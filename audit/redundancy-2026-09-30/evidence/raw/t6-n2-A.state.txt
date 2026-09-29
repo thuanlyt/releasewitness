@@ -1,0 +1,11 @@
+## after attempt A
+c695a64 Add multi-currency support (RW-0001)
+f011a63 baseline (clean, n2)
+ M relwit.config.json
+ M work/SUPERVISOR_REPORT.md
+ M work/registry.json
+ M work/reports/REPORTS.md
+ M work/supervisor/LATEST_CYCLE.md
+ M work/supervisor/state.json
+RW-0001	reported	L2	sonnet-worker	Add multi-currency support	deps:-
+{"label": "t6-n2@A", "head": "c695a64", "dirty_nonwork_paths": 6, "visible": "OK", "hidden_pass": 8, "hidden_total": 8, "hidden_failed": []}

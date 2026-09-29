@@ -1,0 +1,10 @@
+## after attempt A
+850db0d baseline (clean, n2)
+ M relwit.config.json
+ M work/SUPERVISOR_REPORT.md
+ M work/registry.json
+ M work/reports/REPORTS.md
+ M work/supervisor/LATEST_CYCLE.md
+ M work/supervisor/state.json
+RW-0001	reported	L2	sonnet-worker	Add multi-currency support	deps:-
+{"label": "t6b-n2@A", "head": "850db0d", "dirty_nonwork_paths": 6, "visible": "OK", "hidden_pass": 2, "hidden_total": 8, "hidden_failed": ["test_C1_round_minor_units", "test_C2_format", "test_C3_unsupported", "test_C4_invoice_jpy", "test_C6_csv_currency_column", "test_C7_cli_currency"]}

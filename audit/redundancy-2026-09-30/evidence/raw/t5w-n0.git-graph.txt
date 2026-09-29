@@ -1,0 +1,23 @@
+* 9148ccb Add --json CLI flag, half-up unit_price in exports, update SPEC
+*   13d1625 Merge Y: parse_amount accepts $ and accounting negatives
+|\  
+| * a22499e Accept $ symbol and accounting negatives in parse_amount
+* |   c0bd890 Merge W: Invoice.line_count and CSV TOTAL row
+|\ \  
+| * | 82753b0 Add Invoice.line_count and show it in CSV TOTAL row
+| |/  
+* |   824277d Merge X: to_json export
+|\ \  
+| |/  
+|/|   
+| * 60cc4dc Add to_json invoice export
+|/  
+* 2513097 baseline (clean, n0)
+/tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t5w-n0                                            9148ccb [main]
+/tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t5w-n0/.claude/worktrees/agent-a5efb00e9d14374b5  82753b0 [worktree-agent-a5efb00e9d14374b5]
+/tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t5w-n0/.claude/worktrees/agent-a6e6080c123092f5a  a22499e [worktree-agent-a6e6080c123092f5a]
+/tmp/claude-0/-home-user-releasewitness/4f1cd7ad-26e1-50fc-b457-bb85ec44b4ea/scratchpad/runs/t5w-n0/.claude/worktrees/agent-aa669858a22b66ff4  60cc4dc [worktree-agent-aa669858a22b66ff4]
+* main
++ worktree-agent-a5efb00e9d14374b5
++ worktree-agent-a6e6080c123092f5a
++ worktree-agent-aa669858a22b66ff4

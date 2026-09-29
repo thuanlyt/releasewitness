@@ -1,2 +1,4 @@
-# TEMPORARY while experiment runs are live; removed before the final commit.
-evidence/raw/
+# Unredacted live transcripts stay local; the committed copy is evidence/raw-transcripts-redacted.tgz
+# (owner e-mail, account and org identifiers replaced with placeholders).
+evidence/raw/*.jsonl
+evidence/raw/*.stderr
