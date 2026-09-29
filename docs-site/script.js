@@ -1,12 +1,11 @@
 const docsIndex = [
-  { title: "Get started", description: "Set up ReleaseWitness and run your first supervisor-to-worker handover.", href: "/getting-started" },
-  { title: "Runtime roster", description: "Connect Codex, Claude Code, Antigravity or another compatible runtime.", href: "/getting-started#runtimes" },
-  { title: "Architecture", description: "Understand the knowledge ledger, registry, mailbox and production gate.", href: "/architecture" },
-  { title: "Worker loop", description: "Pull one task, implement in scope, report checks and continue the cycle.", href: "/operations#worker-loop" },
-  { title: "Autopilot cycle", description: "Run bounded cycles with QA, checkpoints and explicit stop conditions.", href: "/operations#cycle" },
-  { title: "OSBlog dogfood case study", description: "See a real multi-agent run with quota failure, takeover, live evidence and product findings.", href: "/case-study" },
-  { title: "Hướng dẫn tiếng Việt", description: "Thiết lập supervisor, worker và chu trình report bằng tiếng Việt.", href: "/vi" },
-];
+  { title: "Get started", description: "Keep Claude Code, Codex or another runtime native; add relwit qa and relwit gate for source-bound assurance.", href: "/getting-started" },
+  { title: "Assurance gate", description: "Run configured QA, fingerprint the release source and fail when passing evidence becomes stale.", href: "/operations" },
+  { title: "Architecture", description: "Runtime executes; ReleaseWitness verifies source-bound QA and release state.", href: "/architecture" },
+  { title: "Redundancy study", description: "Inspect the 56-session empirical study that deprecated full RelWit supervision.", href: "/case-study#redundancy-study" },
+  { title: "OSBlog dogfood case study", description: "See the earlier real workload that motivated evidence provenance, recovery and source-bound QA.", href: "/case-study" },
+  { title: "Hướng dẫn tiếng Việt", description: "Dùng RelWit như QA/release gate, giữ orchestration trong coding runtime native.", href: "/vi" },
+]
 
 const menuButton = document.querySelector(".menu-toggle");
 const primaryNav = document.querySelector(".primary-nav");
