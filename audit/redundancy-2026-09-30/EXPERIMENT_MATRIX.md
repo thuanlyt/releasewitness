@@ -68,6 +68,7 @@ for T3/T6 (phases A, B, C, C-clone) is in `evidence/run_metrics.json`.
 | --- | --- | --- |
 | T4 drift matrix, 11 scenarios | `evidence/t4-deterministic-matrix.json` | RelWit fingerprint 8/11 correct; ~30-line native hook 9/11 |
 | T4 gate enforceability | this report §6.4 | no RelWit command exits non-zero on `QA_STALE` |
+| T4 drift matrix after fix (branch head) | `evidence/t4-deterministic-matrix-after-fix.json` | RelWit 10/11 (S9 only); native hook 9/11 |
 | T4 evidence-commit probe | `evidence/t4-ledger-commit-probe.txt` | committing only `work/` evidence flips RelWit QA to `QA_STALE`; native SHA-diff convention says valid |
 | T5 scope/identity probe | `evidence/t5-deterministic-scope-probe.txt` | overlapping claim rejected; undeclared out-of-scope write accepted; self-declared reviewer closes task |
 | N1 onboarding dry-run | `dry-n1` (§6.6) | external `init` leaves `work/.runtime-output/` un-ignored |

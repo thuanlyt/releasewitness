@@ -384,17 +384,45 @@ Only narrowly, and every change below points to a finding.
 
 | Change (implemented on this branch) | Finding |
 | --- | --- |
-| Content-based fingerprint: `head_sha` and `dirty_paths` stay as recorded metadata but no longer invalidate QA | §6.2 (evidence-commit probe, S7, S11; N1 ran QA 4×) |
+| Content-based fingerprint (bytes, executable bit, symlink target; deleted files absent): `head_sha` and `dirty_paths` stay as recorded metadata but no longer invalidate QA | §6.2 (evidence-commit probe, S7, S11; N1 ran QA 4×) |
 | `relwit gate` command: exit 0/1 on source-bound QA (+ optional `--require-clean`), independent of the work ledger | §6.4, §6.5 (no enforceable gate; ledger coupling) |
 | `init` writes `work/.gitignore` for the runtime spool | §6.6 |
 | README/architecture positioning: native orchestration first; supervision deprecated, pending owner decision | §5, §7 |
+
+**How the implementation went (a small, real N1-style run on this repository):**
+- Every change went through RelWit work items RW-0001…RW-0008 (local `work/`, not committed, per the
+  repo's own `.gitignore`), with regression tests that fail on v0.2.0.
+- RelWit's DAG blocked serial work until review, so I cancelled and recreated three items without
+  dependencies: the same churn N2 showed.
+- After my commit `939aba2` passed all 141 tests, an **independent Opus reviewer subagent returned
+  CHANGES_REQUESTED** with a real **P1**: dropping HEAD from the hash made the fingerprint ignore
+  file-mode and symlink changes, a fail-open. It also found four P2s.
+- All were fixed in `fa2c42c` with 7 more regression tests (6 fail on `939aba2`). That is TEST 2's
+  lesson again: "tests pass" was not verification, and the catch came from the **native** reviewer.
+- RelWit could only record that review under the self-declared `supervisor` identity, because the
+  tracked config registers no separate reviewer.
+- I deliberately did not take one review suggestion (auto-treating `runtime_spool` as volatile). It
+  would let a misconfigured spool path hide real source, so `validate` now rejects such a config
+  instead.
+
+Re-running the deterministic drift battery on the fixed code
+(`evidence/t4-deterministic-matrix-after-fix.json`) gives:
+- RelWit correct in **10/11** scenarios (only the shared S9 limit remains), versus 9/11 for my
+  30-line native hook.
+- The evidence-commit probe now keeps QA valid (`evidence/t4-ledger-commit-probe-after-fix.txt`).
+
+This is a narrow accuracy edge that a slightly longer native hook could also reach; it does not
+change the conclusions in §7.
+
+Final QA on the branch head: 148 unit tests OK (133 at start), `validate` VALID, docs link check
+and docs build OK, installed-package smoke OK, and `relwit gate` dogfooded on this checkout.
 
 **Not implemented (owner decision required):** deleting the supervision/mailbox/runner/telemetry
 machinery and the `validate` control-plane requirement. That is a breaking change, and the
 deprecation recommendation above is the evidence for it. Also not implemented: fixes to the
 runner false-failure classification and `--supersedes` from `reported` (§6.7). Those sit in
 machinery recommended for deletion, so they are recorded as known defects instead of being
-invested in.
+invested in. The static `docs-site/` HTML was not updated; it still describes v0.2.0 positioning.
 
 ## 12. Threats to validity
 

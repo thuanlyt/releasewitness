@@ -1,0 +1,4 @@
+after QA:            qa_source_state`: `pass
+files in that commit: 0 non-work, 4 work/
+after ledger commit: qa_source_state`: `pass
+N0-convention check (git diff <qa-sha> HEAD excluding evidence dir): exit=0 (0 = QA still applies)
