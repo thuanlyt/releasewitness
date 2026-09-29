@@ -1,3 +1,2 @@
-# Live run transcripts are committed later in compressed form (evidence/raw-archive).
-evidence/raw/*.jsonl
-evidence/raw/*.stderr
+# TEMPORARY while experiment runs are live; removed before the final commit.
+evidence/raw/
