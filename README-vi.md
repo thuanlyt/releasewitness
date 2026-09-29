@@ -63,14 +63,20 @@ Repository public không đóng gói runtime history của maintainer. `work/` �
 
 ## Nghiên cứu redundancy 2026-09: điều gì thay đổi
 
-Một nghiên cứu độc lập đã chạy 56 session Claude Code thật (Opus 5.5 làm lead,
-Sonnet 5.5 làm worker). Nghiên cứu so sánh ba chế độ: Claude Code native, Claude
-Code native kèm RelWit assurance, và RelWit supervision đầy đủ. Claude Code
-native cho kết quả ngang supervision đầy đủ về correctness, review và recovery,
-với chi phí thấp hơn 1,9–4,8 lần. Thuộc tính duy nhất RelWit thêm vào là một
-kết luận do tool tính: QA áp dụng cho đúng source đang release. Ngay cả thuộc
-tính đó cũng tái tạo được bằng một Git hook nhỏ. Xem
-[báo cáo redundancy](audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md).
+Một self-audit thực nghiệm có evidence trong repository đã chạy 56 session
+Claude Code thật (Opus 5.5 làm lead, Sonnet 5.5 làm worker). Ba chế độ được so
+sánh là Claude Code native, Claude Code native kèm RelWit assurance, và RelWit
+supervision đầy đủ. Trong fixture này, supervision đầy đủ tốn hơn 1,9–4,8 lần
+mỗi task và chậm hơn 1,8–5,6 lần nhưng không cải thiện correctness hay recovery
+cuối cùng. Thuộc tính riêng còn lại của RelWit là verdict do tool tính để xác
+nhận QA áp dụng cho đúng source đang release; thuộc tính đó cũng có thể tái tạo
+bằng một Git hook nhỏ.
+
+Đây không chỉ là lời tự báo cáo: repository chứa
+[báo cáo đầy đủ](audit/redundancy-2026-09-30/RELWIT_REDUNDANCY_REPORT.md),
+[experiment matrix](audit/redundancy-2026-09-30/EXPERIMENT_MATRIX.md),
+[hướng dẫn reproduce](audit/redundancy-2026-09-30/REPRODUCE.md) và evidence đã
+commit trong `audit/redundancy-2026-09-30/evidence/`.
 
 Hệ quả:
 
