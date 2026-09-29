@@ -55,10 +55,14 @@ slate/blue high-contrast palette, restrained motion, visible keyboard focus
 and responsive layouts at 375px, 768px, 1024px and 1440px. System fonts are
 intentional: they keep the critical path free of third-party font requests.
 
-The content foundation now includes English and Vietnamese journeys, runtime
-examples, operator guidance and an evidence-frozen [OSBlog dogfooding case
-study](case-study.html). Final browser visual QA, hosting and DNS remain
-separate, explicitly gated operations.
+The content foundation now includes English and Vietnamese journeys, an
+assurance-only quickstart, operator guidance, the evidence-frozen [OSBlog
+dogfooding case study](case-study.html), and the 2026-09 repository-backed
+redundancy study under `../audit/redundancy-2026-09-30/`. Public copy should
+present runtime-native execution + `relwit qa`/`relwit gate` as the recommended
+product boundary. The UseAgent-era supervision flow is deprecated pending the
+owner decision recorded in ADR-0011. Final browser visual QA, hosting and DNS
+remain separate, explicitly gated operations.
 
 Read [DEPLOYMENT.md](DEPLOYMENT.md) for the Vercel preview, exact-domain
 Cloudflare gate and rollback runbook.
